@@ -1,21 +1,18 @@
 import type { AppProps } from "next/app";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "@/styles/globals.css";
+import { NextPage } from "next";
+import { ReactElement, ReactNode } from "react";
 
+type NextPageWithLayout = NextPage & {
+	getLayout?: (page: ReactElement) => ReactNode;
+};
 
-// const montserrat = Montserrat({
-//   subsets: ["latin"],
-//   variable: "--font-montserrat"
-// })
+type AppPropsWithLayout = AppProps & {
+	Component: NextPageWithLayout;
+};
 
-// const roboto = Roboto_Mono({
-//   subsets:["latin"],
-//   variable: "--font-roboto"
-// })
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <TooltipProvider>
-      <Component {...pageProps} />
-    </TooltipProvider>
-  )
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+	const getLayout = Component.getLayout ?? ((page) => page);
+	return getLayout(<Component {...pageProps} />);
 }

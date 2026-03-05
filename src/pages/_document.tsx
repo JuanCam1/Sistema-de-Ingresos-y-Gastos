@@ -1,3 +1,4 @@
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -5,8 +6,10 @@ export default function Document() {
 		<Html lang="es">
 			<Head />
 			<body className="antialiased">
-				<Main />
-				<NextScript />
+				<TooltipProvider>
+					<Main />
+					<NextScript />
+				</TooltipProvider>
 			</body>
 		</Html>
 	);
