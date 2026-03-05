@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+// datasource db {
+//   provider = "postgresql"
+// }
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Usuario {
+  id          Int      @id @default(autoincrement())
+  nombre      String?
+  correo       String   @unique
+  password    String?
+  telefono    String?
+  
+  roleId      Int      @map("role_id")
+  estadoId    Int      @map("estado_id")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  role        Role     @relation(fields: [roleId], references: [id])
+  estado      Estado   @relation(fields: [estadoId], references: [id])
+
+  movimientos Movimiento[]
+
+  @@index([roleId])
+  @@index([estadoId])
+  @@map("usuarios")
+}
+
+model Movimiento {
+  id          Int      @id @default(autoincrement())
+  concepto    String
+  monto       Decimal  
+  fecha       DateTime
+  
+  tipoId      Int      @map("tipo_id")
+  usuarioId   Int      @map("usuario_id")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tipo        TipoMovimiento @relation(fields: [tipoId], references: [id])
+  usuario     Usuario        @relation(fields: [usuarioId], references: [id])
+
+  @@index([usuarioId])
+  @@index([tipoId])
+  @@index([fecha])
+  @@map("movimientos")
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @unique
+  descripcion String?
+
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  usuarios    Usuario[]
+  permisos    RolePermiso[]
+
+  @@map("roles")
+}
+
+model TipoMovimiento {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @unique
+  descripcion String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  movimientos Movimiento[]
+
+  @@map("tipos_movimiento")
+}
+
+model Estado {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @unique
+  descripcion String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  usuarios  Usuario[]
+
+  @@map("estados")
+}
+
+
+model Permiso {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @unique
+  descripcion String?
+
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  roles       RolePermiso[]
+
+  @@map("permisos")
+}
+
+model RolePermiso {
+  roleId     Int @map("role_id")
+  permisoId  Int @map("permiso_id")
+
+  role       Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permiso    Permiso @relation(fields: [permisoId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permisoId])
+  @@index([permisoId])
+  @@map("roles_permisos")
+}
