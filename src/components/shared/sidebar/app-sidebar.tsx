@@ -1,47 +1,29 @@
 "use client";
 
-import { Frame, Map, PieChart } from "lucide-react";
-
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
 	SidebarHeader,
-	SidebarRail,
 } from "@/components/ui/sidebar";
 
 import { AvatarSidebar } from "@/components/shared/sidebar/avatar-sidebar";
 import { NavPaths } from "./nav-paths";
+import { NavUser } from "./nav-user";
+import { ComponentProps } from "react";
 
-const paths = [
-	{
-		name: "Movimientos",
-		url: "/home/movements",
-		icon: Frame,
-	},
-	{
-		name: "Usuarios",
-		url: "/home/users",
-		icon: PieChart,
-	},
-	{
-		name: "Reportes",
-		url: "/home/reports",
-		icon: Map,
-	},
-];
-
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
 				<AvatarSidebar />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavPaths paths={paths} />
+				<NavPaths />
 			</SidebarContent>
-			<SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
-			<SidebarRail />
+			<SidebarFooter>
+				<NavUser />
+			</SidebarFooter>
 		</Sidebar>
 	);
 }

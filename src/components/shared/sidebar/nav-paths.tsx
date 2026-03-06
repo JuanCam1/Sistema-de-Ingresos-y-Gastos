@@ -1,39 +1,36 @@
 "use client";
 
-import { type LucideIcon } from "lucide-react";
-
+import Link from "next/link";
 import {
 	SidebarGroup,
-	SidebarGroupLabel,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
+import { pathsSidebar } from "@/consts/paths-sidebar";
+import { useRouter } from "next/router";
 
-export function NavPaths({
-	paths,
-}: {
-	paths: {
-		name: string;
-		url: string;
-		icon: LucideIcon;
-	}[];
-}) {
+export function NavPaths() {
+	const router = useRouter();
 	return (
-		<SidebarGroup className="group-data-[collapsible=icon]:hidden">
-			<SidebarGroupLabel>Projects</SidebarGroupLabel>
+		<SidebarGroup className="group-data-[collapsible=icon]:hidden mt-6">
 			<SidebarMenu>
-				{paths.map((item) => (
-					<SidebarMenuItem key={item.name}>
-						<SidebarMenuButton asChild>
-							<Link href={item.url}>
-								<item.icon />
+				{pathsSidebar.map((item) => {
+					const isActive = router.pathname === item.url;
+
+					return (
+						<SidebarMenuItem key={item.name} className="mx-3">
+							<Link
+								className={`text-sm flex items-center gap-3 text-white p-2 rounded-sm hover:bg-accent
+									${isActive ? "bg-accent" : null}`}
+								href={item.url}
+							>
+								<item.icon className="size-5" />
 								<span>{item.name}</span>
 							</Link>
-						</SidebarMenuButton>
-					</SidebarMenuItem>
-				))}
+						</SidebarMenuItem>
+					);
+				})}
 			</SidebarMenu>
 		</SidebarGroup>
 	);

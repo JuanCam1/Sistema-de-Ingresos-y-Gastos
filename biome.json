@@ -57,7 +57,8 @@
 			"!.next/**",
 			"!out/**",
 			"!build/**",
-			"!next-env.d.ts"
+			"!next-env.d.ts",
+			"!src/styles/globals.css"
 		]
 	},
 	"javascript": { "formatter": { "quoteStyle": "double" }, "globals": [] },
@@ -542,6 +543,7 @@
 	],
 	"assist": {
 		"enabled": true,
-		"actions": { "source": { "organizeImports": "on" } }
+
+		"actions": { "source": { "organizeImports": "off" } }
 	}
 }
