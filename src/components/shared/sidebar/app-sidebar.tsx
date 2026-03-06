@@ -14,7 +14,7 @@ import { ComponentProps } from "react";
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	return (
-		<Sidebar collapsible="icon" {...props}>
+		<Sidebar {...props}>
 			<SidebarHeader>
 				<AvatarSidebar />
 			</SidebarHeader>

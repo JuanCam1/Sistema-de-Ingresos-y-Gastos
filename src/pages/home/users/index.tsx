@@ -1,10 +1,9 @@
-import HomeLayout from "@/layouts/home-layout";
-import { ReactElement } from "react";
-
 export default function UserPage() {
-	return <div>usuarios</div>;
+	return (
+		<div className="flex flex-col justify-center items-center  h-full">
+			<h2 className="text-accent text-5xl font-semibold text-center dark:text-white">
+				Usuarios
+			</h2>
+		</div>
+	);
 }
-
-UserPage.getLayout = function getLayout(page: ReactElement) {
-	return <HomeLayout>{page}</HomeLayout>;
-};

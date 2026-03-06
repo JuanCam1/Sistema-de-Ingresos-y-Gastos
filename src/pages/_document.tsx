@@ -4,7 +4,7 @@ export default function Document() {
 	return (
 		<Html lang="es" suppressHydrationWarning>
 			<Head />
-			<body className="antialiased bg-neutral-200 dark:bg-background">
+			<body className="antialiased bg-neutral-200 dark:bg-zinc-800">
 				<Main />
 				<NextScript />
 			</body>
