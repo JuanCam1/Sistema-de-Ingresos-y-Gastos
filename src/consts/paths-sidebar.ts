@@ -1,5 +1,5 @@
 import { Frame, FileChartPie, Users, BanknoteArrowUp } from "lucide-react";
-import { PathI } from "@/types/path-type";
+import { PathI } from "@/models/path-model";
 
 export const pathsSidebar: PathI[] = [
 	{

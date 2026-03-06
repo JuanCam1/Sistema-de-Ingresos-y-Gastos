@@ -11,108 +11,101 @@ datasource db {
   provider = "sqlite"
 }
 
-model Usuario {
-  id          Int      @id @default(autoincrement())
-  nombre      String?
-  correo       String   @unique
-  password    String?
-  telefono    String?
-  
-  roleId      Int      @map("role_id")
-  estadoId    Int      @map("estado_id")
+model User {
+  id        Int     @id @default(autoincrement())
+  name      String?
+  email     String  @unique
+  telephone String?
 
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  roleId  Int @map("role_id")
+  stateId Int @map("state_id")
 
-  role        Role     @relation(fields: [roleId], references: [id])
-  estado      Estado   @relation(fields: [estadoId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  movimientos Movimiento[]
+  role  Role  @relation(fields: [roleId], references: [id])
+  state state @relation(fields: [stateId], references: [id])
+
+  movements Movement[]
 
   @@index([roleId])
-  @@index([estadoId])
-  @@map("usuarios")
+  @@index([stateId])
+  @@map("users")
 }
 
-model Movimiento {
-  id          Int      @id @default(autoincrement())
-  concepto    String
-  monto       Decimal  
-  fecha       DateTime
-  
-  tipoId      Int      @map("tipo_id")
-  usuarioId   Int      @map("usuario_id")
+model Movement {
+  id    Int      @id @default(autoincrement())
+  monto Decimal
+  fecha DateTime
 
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  typeId Int @map("type_id")
+  userId Int @map("user_id")
 
-  tipo        TipoMovimiento @relation(fields: [tipoId], references: [id])
-  usuario     Usuario        @relation(fields: [usuarioId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@index([usuarioId])
-  @@index([tipoId])
+  type typeMovement @relation(fields: [typeId], references: [id])
+  user User         @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([typeId])
   @@index([fecha])
-  @@map("movimientos")
+  @@map("Movements")
 }
 
 model Role {
-  id          Int      @id @default(autoincrement())
-  nombre      String   @unique
-  descripcion String?
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
-  createdAt   DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  usuarios    Usuario[]
-  permisos    RolePermiso[]
+  users       User[]
+  permissions RolePermission[]
 
   @@map("roles")
 }
 
-model TipoMovimiento {
-  id        Int      @id @default(autoincrement())
-  nombre    String   @unique
-  descripcion String?
+model typeMovement {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
   createdAt DateTime @default(now()) @map("created_at")
 
-  movimientos Movimiento[]
+  movements Movement[]
 
-  @@map("tipos_movimiento")
+  @@map("types_Movement")
 }
 
-model Estado {
-  id        Int      @id @default(autoincrement())
-  nombre    String   @unique
-  descripcion String?
+model state {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
   createdAt DateTime @default(now()) @map("created_at")
 
-  usuarios  Usuario[]
+  users User[]
 
-  @@map("estados")
+  @@map("states")
 }
 
+model Permission {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
-model Permiso {
-  id          Int      @id @default(autoincrement())
-  nombre      String   @unique
-  descripcion String?
+  createdAt DateTime @default(now()) @map("created_at")
 
-  createdAt   DateTime @default(now()) @map("created_at")
+  roles RolePermission[]
 
-  roles       RolePermiso[]
-
-  @@map("permisos")
+  @@map("Permissions")
 }
 
-model RolePermiso {
-  roleId     Int @map("role_id")
-  permisoId  Int @map("permiso_id")
+model RolePermission {
+  roleId       Int @map("role_id")
+  PermissionId Int @map("Permission_id")
 
-  role       Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  permiso    Permiso @relation(fields: [permisoId], references: [id], onDelete: Cascade)
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  Permission Permission @relation(fields: [PermissionId], references: [id], onDelete: Cascade)
 
-  @@id([roleId, permisoId])
-  @@index([permisoId])
-  @@map("roles_permisos")
+  @@id([roleId, PermissionId])
+  @@index([PermissionId])
+  @@map("roles_Permissions")
 }
