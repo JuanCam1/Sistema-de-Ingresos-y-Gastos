@@ -73,10 +73,10 @@ export function DataTableUser<TData, TValue>({
 	const emptyRows = pageSize - rows.length;
 
 	return (
-		<div className="w-250">
+		<div className="w-full max-w-[1000px]">
 			<div className="flex items-center justify-between py-4">
 				<Input
-					placeholder="Filtrar por nombre..."
+					placeholder="Buscar por nombre..."
 					className="w-[320px]"
 					value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
@@ -85,7 +85,7 @@ export function DataTableUser<TData, TValue>({
 				/>
 			</div>
 
-			<div className="overflow-hidden rounded-md border border-gray-200 min-h-105">
+			<div className="overflow-hidden rounded-md border border-gray-200 min-h-[480px]">
 				<Table className="w-full">
 					<TableHeader className="bg-primary text-white">
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -112,7 +112,7 @@ export function DataTableUser<TData, TValue>({
 							<TableRow>
 								<TableCell
 									colSpan={columns.length}
-									className="h-105 text-center"
+									className="h-[480px] text-center"
 								>
 									<Loading />
 								</TableCell>
@@ -125,7 +125,7 @@ export function DataTableUser<TData, TValue>({
 										className="border-b transition-colors bg-gray-50 dark:text-white dark:bg-zinc-700 hover:bg-[#e0e7ff] dark:hover:bg-zinc-800"
 									>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell key={cell.id} className="px-8 py-2 text-md">
+											<TableCell key={cell.id} className="px-8 text-md">
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext(),
@@ -145,14 +145,15 @@ export function DataTableUser<TData, TValue>({
 							<TableRow>
 								<TableCell
 									colSpan={columns.length}
-									className="h-133 text-center"
+									className="h-[440px] text-center"
 								>
 									<div className="flex flex-col items-center justify-center gap-4">
 										<Alert className="max-w-md">
 											<CheckCircle2Icon />
 											<AlertTitle>No se encontraron usuarios</AlertTitle>
 											<AlertDescription>
-												Aún no hay usuarios en el sistema.
+												No hay usuarios que coincidan con los criterios de
+												búsqueda.
 											</AlertDescription>
 										</Alert>
 									</div>

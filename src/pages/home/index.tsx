@@ -11,26 +11,27 @@ export default function HomePage() {
 		router.push(path);
 	};
 	return (
-		<div className="flex flex-col justify-center items-center  h-full">
-			<h2 className="text-accent text-5xl font-semibold text-center dark:text-white">
+		<div className="w-full h-full flex flex-col items-center px-6 py-10">
+			<h2 className="text-accent text-5xl font-semibold text-center mb-16 dark:text-white">
 				Panel
 			</h2>
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-250 mt-32">
+
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-3xl">
 				{pathsSidebar.slice(1, 4).map((card, index) => {
 					const Icon = card.icon;
 
 					return (
 						<Card
 							key={index}
-							className="cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-2 bg-primary"
+							className="aspect-square cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-2 bg-primary"
 							onClick={() => handlePage(card.url)}
 						>
-							<CardContent className="flex flex-col items-center justify-center text-center p-8 gap-4">
-								<div className="p-4 rounded-full bg-primary/10">
+							<CardContent className="flex flex-col items-center justify-center h-full text-center gap-6">
+								<div className="p-5 rounded-full bg-primary/20">
 									<Icon className="size-16 text-white" />
 								</div>
 
-								<h3 className="text-lg font-semibold text-white">
+								<h3 className="text-xl font-semibold text-white">
 									{card.name}
 								</h3>
 							</CardContent>

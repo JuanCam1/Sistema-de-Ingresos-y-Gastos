@@ -33,7 +33,7 @@ export const columnsUser: ColumnDef<UserModel>[] = [
 						variant="outline"
 						size="lg"
 						onClick={() => console.log(user)}
-						className="group size-10 flex items-center justify-center	rounded-sm cursor-pointer bg-teal-500 dark:bg-teal-600 transition-colors duration-200 hover:bg-teal-600 dark:hover:bg-teal-800 border-none"
+						className="group w-8 h-8 flex items-center justify-center	rounded-sm cursor-pointer bg-teal-500 dark:bg-teal-600 transition-colors duration-200 hover:bg-teal-600 dark:hover:bg-teal-800 border-none p-0"
 					>
 						<PencilLine className="text-white size-5 transition-transform duration-200	group-hover:-translate-y-1" />
 					</Button>
