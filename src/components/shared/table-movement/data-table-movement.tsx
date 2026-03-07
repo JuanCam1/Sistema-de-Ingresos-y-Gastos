@@ -7,7 +7,7 @@ import {
 	getPaginationRowModel,
 	useReactTable,
 	getSortedRowModel,
-	getFilteredRowModel
+	getFilteredRowModel,
 } from "@tanstack/react-table";
 import { useMovementTable } from "@/hooks/use-movement-table";
 import {
@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
+	userId: string;
 }
 
 export function DataTableMovement<TData, TValue>({
@@ -65,22 +66,17 @@ export function DataTableMovement<TData, TValue>({
 	const isLoading = query.isLoading;
 	const error = query.error;
 
-	// Solucion del filtro
-
 	return (
 		<div>
 			<div className="flex items-center py-4">
 				<Input
 					placeholder="Filtrar por movimiento"
-					value={
-						(table.getColumn("type")?.getFilterValue() as string) ?? ""
-					}
+					value={(table.getColumn("type")?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
 						table.getColumn("type")?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm ml-2"
 				/>
-
 			</div>
 			<div className="overflow-hidden rounded-md border">
 				<Table>
@@ -93,9 +89,9 @@ export function DataTableMovement<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}
@@ -154,7 +150,6 @@ export function DataTableMovement<TData, TValue>({
 					<div>
 						Page {meta.page} / {meta.totalPages}
 					</div>
-
 				</div>
 				<Button
 					variant="outline"

@@ -8,7 +8,7 @@ import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react";
 interface Props {
 	isLoading: boolean;
 	error: Error | null;
-	action: (id: string) => void;
+	action: (user: UserModel) => void;
 	users: UserModel[];
 }
 export default function CardList({ users, isLoading, error, action }: Props) {
@@ -21,6 +21,7 @@ export default function CardList({ users, isLoading, error, action }: Props) {
 					<Card
 						key={user.id}
 						className="aspect-square cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-1 bg-primary"
+						onClick={() => action(user)}
 					>
 						<CardContent className="flex flex-col items-center justify-center h-full text-center gap-4 p-6">
 							<Avatar className="w-20 h-20 border-2 border-white/20">

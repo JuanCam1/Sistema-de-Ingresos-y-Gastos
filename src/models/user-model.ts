@@ -2,7 +2,7 @@ import { RoleModel } from "./role-model";
 import { StateModel } from "./state-model";
 
 export interface UserModel {
-	id: number;
+	id: string;
 	name: string;
 	email: string;
 	telephone: string;
