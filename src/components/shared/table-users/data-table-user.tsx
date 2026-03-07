@@ -6,11 +6,8 @@ import {
 	getCoreRowModel,
 	getPaginationRowModel,
 	useReactTable,
-	SortingState,
 	getSortedRowModel,
-	ColumnFiltersState,
 	getFilteredRowModel,
-	PaginationState,
 } from "@tanstack/react-table";
 
 import {
@@ -21,12 +18,14 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { useState, useMemo } from "react";
+import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
-import { useQuery } from "@tanstack/react-query";
-import { UserResponse } from "@/models/user-response-model";
-import { fetchUsers } from "@/services/user-services";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import { useUsersTable } from "@/hooks/use-user-table";
+import { Loading } from "../loading";
+import { Pagination } from "../pagination";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -35,47 +34,17 @@ interface DataTableProps<TData, TValue> {
 export function DataTableUser<TData, TValue>({
 	columns,
 }: DataTableProps<TData, TValue>) {
-	const [sorting, setSorting] = useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-	const [pagination, setPagination] = useState<PaginationState>({
-		pageIndex: 0,
-		pageSize: 5,
-	});
-
-	const page = pagination.pageIndex + 1;
-	const perPage = pagination.pageSize;
-
-	const nameFilter = useMemo(() => {
-		return (columnFilters.find((c) => c.id === "name")?.value as string) ?? "";
-	}, [columnFilters]);
-
-	const emailFilter = useMemo(() => {
-		return (columnFilters.find((c) => c.id === "email")?.value as string) ?? "";
-	}, [columnFilters]);
-
-	const { data, isLoading, error } = useQuery<UserResponse>({
-		queryKey: [
-			"users",
-			{ page, perPage, name: nameFilter, email: emailFilter },
-		],
-		queryFn: () =>
-			fetchUsers({
-				page,
-				perPage,
-				name: nameFilter,
-				email: emailFilter,
-			}),
-		placeholderData: (previousData) => previousData,
-	});
-
-	const users = data?.data ?? [];
-
-	const meta = data?.meta ?? {
-		total: 0,
-		page: 1,
-		perPage: 5,
-		totalPages: 1,
-	};
+	const {
+		users,
+		meta,
+		query,
+		sorting,
+		setSorting,
+		columnFilters,
+		setColumnFilters,
+		pagination,
+		setPagination,
+	} = useUsersTable();
 
 	const table = useReactTable({
 		data: users as TData[],
@@ -96,126 +65,123 @@ export function DataTableUser<TData, TValue>({
 		},
 	});
 
+	const isLoading = query.isLoading;
+	const error = query.error;
+
+	const rows = table.getRowModel().rows;
+	const pageSize = pagination.pageSize;
+	const emptyRows = pageSize - rows.length;
+
 	return (
-		<div>
-			<div className="flex items-center py-4">
+		<div className="w-250">
+			<div className="flex items-center justify-between py-4">
 				<Input
-					placeholder="Filtrar por concepto..."
-					value={
-						(table.getColumn("concepto")?.getFilterValue() as string) ?? ""
-					}
+					placeholder="Filtrar por nombre..."
+					className="w-[320px]"
+					value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
-						table.getColumn("concepto")?.setFilterValue(event.target.value)
+						table.getColumn("name")?.setFilterValue(event.target.value)
 					}
-					className="max-w-sm"
-				/>
-				<Input
-					placeholder="Filtrar por usuario..."
-					value={
-						(table.getColumn("nombreUsuario")?.getFilterValue() as string) ?? ""
-					}
-					onChange={(event) =>
-						table.getColumn("nombreUsuario")?.setFilterValue(event.target.value)
-					}
-					className="max-w-sm ml-2"
 				/>
 			</div>
-			<div className="overflow-hidden rounded-md border">
-				<Table>
-					<TableHeader>
+
+			<div className="overflow-hidden rounded-md border border-gray-200 min-h-105">
+				<Table className="w-full">
+					<TableHeader className="bg-primary text-white">
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
-									return (
-										<TableHead key={header.id}>
-											{header.isPlaceholder
-												? null
-												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
-										</TableHead>
-									);
-								})}
+								{headerGroup.headers.map((header) => (
+									<TableHead
+										key={header.id}
+										className="px-8 py-2 text-md font-semibold text-white"
+									>
+										{header.isPlaceholder
+											? null
+											: flexRender(
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
+									</TableHead>
+								))}
 							</TableRow>
 						))}
 					</TableHeader>
+
 					<TableBody>
 						{isLoading ? (
 							<TableRow>
 								<TableCell
-									colSpan={columns.length as number}
-									className="h-24 text-center"
+									colSpan={columns.length}
+									className="h-105 text-center"
 								>
-									Cargando...
+									<Loading />
 								</TableCell>
 							</TableRow>
 						) : users.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow
-									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext(),
-											)}
-										</TableCell>
-									))}
-								</TableRow>
-							))
+							<>
+								{rows.map((row) => (
+									<TableRow
+										key={row.id}
+										className="border-b transition-colors bg-gray-50 dark:text-white dark:bg-zinc-700 hover:bg-[#e0e7ff]"
+									>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell key={cell.id} className="px-8 py-2 text-md">
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext(),
+												)}
+											</TableCell>
+										))}
+									</TableRow>
+								))}
+
+								{Array.from({ length: emptyRows }).map((_, i) => (
+									<TableRow key={`empty-${i}`} className="h-13.25">
+										<TableCell colSpan={columns.length}></TableCell>
+									</TableRow>
+								))}
+							</>
 						) : (
 							<TableRow>
 								<TableCell
-									colSpan={columns.length as number}
-									className="h-24 text-center"
+									colSpan={columns.length}
+									className="h-133 text-center"
 								>
-									No results.
+									<div className="flex flex-col items-center justify-center gap-4">
+										<Alert className="max-w-md">
+											<CheckCircle2Icon />
+											<AlertTitle>No se encontraron usuarios</AlertTitle>
+											<AlertDescription>
+												Aún no hay usuarios en el sistema.
+											</AlertDescription>
+										</Alert>
+									</div>
 								</TableCell>
 							</TableRow>
 						)}
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex items-center justify-end space-x-2 py-4">
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => table.previousPage()}
-					disabled={!table.getCanPreviousPage()}
-				>
-					Previous
-				</Button>
-				<div className="flex items-center gap-2">
-					<div>
-						Page {meta.page} / {meta.totalPages}
-					</div>
-					<select
-						value={perPage}
-						onChange={(e) => {
-							table.setPageSize(Number(e.target.value));
-							setTimeout(() => table.setPageIndex(0), 0);
-						}}
-						className="border rounded px-2 py-1"
-					>
-						<option value={5}>5</option>
-						<option value={10}>10</option>
-						<option value={20}>20</option>
-					</select>
-				</div>
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => table.nextPage()}
-					disabled={!table.getCanNextPage()}
-				>
-					Next
-				</Button>
-			</div>
 
-			{error && <div className="text-red-600">Error cargando datos</div>}
+			<Pagination
+				page={meta.page}
+				totalPages={meta.totalPages}
+				previousPage={() => table.previousPage()}
+				nextPage={() => table.nextPage()}
+				getCanPreviousPage={() => table.getCanPreviousPage()}
+				getCanNextPage={() => table.getCanNextPage()}
+			/>
+
+			{error && (
+				<Alert variant="destructive" className="max-w-md">
+					<AlertCircleIcon />
+					<AlertTitle>Error</AlertTitle>
+					<AlertDescription>
+						Ha ocurrido un error al cargar los usuarios. Por favor, inténtalo de
+						nuevo más tarde.
+					</AlertDescription>
+				</Alert>
+			)}
 		</div>
 	);
 }

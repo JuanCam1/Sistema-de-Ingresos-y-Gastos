@@ -1,64 +1,52 @@
-import { Prisma } from "../../../prisma/generated/prisma/browser"
-import { userRepository } from "../repositories/user-repository"
-import { UserFilters } from "../types/user-filter-type"
+import { Prisma } from "../../../prisma/generated/prisma/browser";
+import { userRepository } from "../repositories/user-repository";
+import { UserFilters } from "../types/user-filter-type";
 
 export const userService = {
+	async getUsers(filters: UserFilters) {
+		const page = Math.max(1, filters.page || 1);
+		const perPage = Math.max(1, filters.perPage || 10);
 
-  async getUsers(filters: UserFilters) {
-    const page = Math.max(1, filters.page || 1)
-    const perPage = Math.max(1, filters.perPage || 10)
+		const where: Prisma.UserWhereInput = {};
 
-    const where: Prisma.UserWhereInput = {}
+		if (filters.name) {
+			where.name = {
+				contains: filters.name,
+			};
+		}
 
-    if (filters.name) {
-      where.name = {
-        contains: filters.name
-      }
-    }
+		const finalWhere = Object.keys(where).length ? where : undefined;
 
-    if (filters.email) {
-      where.email = {
-        contains: filters.email
-      }
-    }
+		const total = await userRepository.count(finalWhere);
 
-    const finalWhere = Object.keys(where).length ? where : undefined
+		const users = await userRepository.getUsers(finalWhere, page, perPage);
 
-    const total = await userRepository.count(finalWhere)
+		const totalPages = Math.max(1, Math.ceil(total / perPage));
 
-    const users = await userRepository.getUsers(
-      finalWhere,
-      page,
-      perPage
-    )
+		return {
+			data: users,
+			meta: {
+				total,
+				page,
+				perPage,
+				totalPages,
+			},
+		};
+	},
 
-    const totalPages = Math.max(1, Math.ceil(total / perPage))
+	//   async getUser(id: string) {
+	//     return userRepository.getUserById(id)
+	//   },
 
-    return {
-      data: users,
-      meta: {
-        total,
-        page,
-        perPage,
-        totalPages
-      }
-    }
-  },
+	//   async createUser(data: any) {
+	//     return userRepository.createUser(data)
+	//   },
 
-//   async getUser(id: string) {
-//     return userRepository.getUserById(id)
-//   },
+	//   async updateUser(id: string, data: any) {
+	//     return userRepository.updateUser(id, data)
+	//   },
 
-//   async createUser(data: any) {
-//     return userRepository.createUser(data)
-//   },
-
-//   async updateUser(id: string, data: any) {
-//     return userRepository.updateUser(id, data)
-//   },
-
-//   async deleteUser(id: string) {
-//     return userRepository.deleteUser(id)
-//   }
-
-}
+	//   async deleteUser(id: string) {
+	//     return userRepository.deleteUser(id)
+	//   }
+};

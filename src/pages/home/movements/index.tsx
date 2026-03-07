@@ -14,6 +14,6 @@ export default function MovementsPage() {
 	);
 }
 
-// MovementsPage.getLayout = function getLayout(page: ReactElement) {
-// 	return <HomeLayout>{page}</HomeLayout>;
-// };
+MovementsPage.getLayout = function getLayout(page: ReactElement) {
+	return <HomeLayout>{page}</HomeLayout>;
+};

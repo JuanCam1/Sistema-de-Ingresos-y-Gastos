@@ -1,17 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { BanknoteArrowUp, FileChartPie, PencilLine } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { DataTableColumnHeaderUser } from "./data-table-column-header-user";
 import { UserModel } from "@/models/user-model";
 
@@ -24,41 +16,52 @@ export const columnsUser: ColumnDef<UserModel>[] = [
 	},
 	{
 		accessorKey: "email",
-		header: ({ column }) => (
-			<DataTableColumnHeaderUser column={column} title="Correo" />
-		),
+		header: "Correo",
 	},
 	{
 		accessorKey: "telephone",
-		header: ({ column }) => (
-			<DataTableColumnHeaderUser column={column} title="Teléfono" />
-		),
+		header: "Teléfono",
 	},
 
+	{
+		id: "movement",
+		header: "Movimientos",
+		cell: ({ row }) => {
+			const user = row.original as UserModel;
+			return (
+				<div className="flex items-center justify-center">
+					<Button onClick={() => console.log(user)} className="cursor-pointer">
+						<BanknoteArrowUp />
+					</Button>
+				</div>
+			);
+		},
+	},
+	{
+		id: "report",
+		header: "Reporte",
+		cell: ({ row }) => {
+			const user = row.original as UserModel;
+			return (
+				<div className="flex items-center justify-center">
+					<Button onClick={() => console.log(user)} className="cursor-pointer">
+						<FileChartPie />
+					</Button>
+				</div>
+			);
+		},
+	},
 	{
 		id: "actions",
 		header: "Acción",
 		cell: ({ row }) => {
 			const user = row.original as UserModel;
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>Acciones</DropdownMenuLabel>
-						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(String(user.id))}
-						>
-							Editar
-						</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem></DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<div className="flex items-center justify-center">
+					<Button onClick={() => console.log(user)} className="cursor-pointer">
+						<PencilLine />
+					</Button>
+				</div>
 			);
 		},
 	},
