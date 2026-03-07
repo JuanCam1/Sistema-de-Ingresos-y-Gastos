@@ -6,6 +6,7 @@ export interface UserModel {
 	name: string;
 	email: string;
 	telephone: string;
+	image: string;
 	role: RoleModel;
 	state: StateModel;
 }

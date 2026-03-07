@@ -20,8 +20,8 @@ export function NavPaths() {
 					return (
 						<SidebarMenuItem key={item.name} className="mx-3">
 							<Link
-								className={`text-sm flex items-center gap-3 text-white p-2 rounded-sm hover:bg-blue-600
-									${isActive ? "bg-blue-600" : null}`}
+								className={`text-sm flex items-center gap-3 text-white p-2 rounded-sm hover:bg-blue-700
+									${isActive ? "bg-blue-700" : null}`}
 								href={item.url}
 							>
 								<item.icon className="size-5" />

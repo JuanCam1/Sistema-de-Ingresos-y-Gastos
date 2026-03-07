@@ -16,6 +16,7 @@ model User {
   name      String?
   email     String  @unique
   telephone String?
+  image     String?
 
   roleId  Int @map("role_id")
   stateId Int @map("state_id")

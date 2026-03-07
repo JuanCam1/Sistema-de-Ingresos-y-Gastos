@@ -12,7 +12,7 @@ export default function HomePage() {
 	};
 	return (
 		<div className="w-full h-full flex flex-col items-center px-6 py-10">
-			<h2 className="text-accent text-5xl font-semibold text-center mb-16 dark:text-white">
+			<h2 className="text-blue-700 text-5xl font-bold text-center mb-16 dark:text-white">
 				Panel
 			</h2>
 
