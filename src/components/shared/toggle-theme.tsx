@@ -23,22 +23,22 @@ export function ToggleTheme() {
 					<span className="sr-only">Toggle theme</span>
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
+			<DropdownMenuContent align="end" className="bg-white dark:bg-zinc-700">
 				<DropdownMenuItem
 					onClick={() => setTheme("light")}
-					className="cursor-pointer"
+					className="cursor-pointer hover:bg-zinc-800"
 				>
 					Light
 				</DropdownMenuItem>
 				<DropdownMenuItem
 					onClick={() => setTheme("dark")}
-					className="cursor-pointer"
+					className="cursor-pointer hover:bg-zinc-800"
 				>
 					Dark
 				</DropdownMenuItem>
 				<DropdownMenuItem
 					onClick={() => setTheme("system")}
-					className="cursor-pointer"
+					className="cursor-pointer hover:bg-zinc-800"
 				>
 					System
 				</DropdownMenuItem>

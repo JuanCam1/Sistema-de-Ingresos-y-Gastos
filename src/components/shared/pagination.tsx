@@ -26,12 +26,12 @@ export function Pagination({
 			<div className="flex items-center gap-2">
 				<Button
 					variant="outline"
-					size="sm"
+					size="lg"
 					onClick={() => previousPage()}
 					disabled={!getCanPreviousPage()}
-					className="px-6 py-6 cursor-pointer"
+					className="group bg-accent size-10 flex items-center justify-center	rounded-sm cursor-pointer							transition-colors duration-200hover:bg-[#4232f1]	hover:shadow-md"
 				>
-					<ArrowBigLeftDash className="size-6" />
+					<ArrowBigLeftDash className="text-white size-6 transition-transform duration-200	group-hover:-translate-x-1" />
 				</Button>
 
 				<Button
@@ -39,9 +39,9 @@ export function Pagination({
 					size="sm"
 					onClick={() => nextPage()}
 					disabled={!getCanNextPage()}
-					className="px-6 py-6 cursor-pointer"
+					className="group bg-accent size-10 flex items-center justify-center	rounded-sm cursor-pointer							transition-colors duration-200hover:bg-[#4232f1]	hover:shadow-md"
 				>
-					<ArrowBigRightDash className="size-6" />
+					<ArrowBigRightDash className="text-white size-6 transition-transform duration-200	group-hover:translate-x-1" />
 				</Button>
 			</div>
 		</div>

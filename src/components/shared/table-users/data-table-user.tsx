@@ -122,7 +122,7 @@ export function DataTableUser<TData, TValue>({
 								{rows.map((row) => (
 									<TableRow
 										key={row.id}
-										className="border-b transition-colors bg-gray-50 dark:text-white dark:bg-zinc-700 hover:bg-[#e0e7ff]"
+										className="border-b transition-colors bg-gray-50 dark:text-white dark:bg-zinc-700 hover:bg-[#e0e7ff] dark:hover:bg-zinc-800"
 									>
 										{row.getVisibleCells().map((cell) => (
 											<TableCell key={cell.id} className="px-8 py-2 text-md">

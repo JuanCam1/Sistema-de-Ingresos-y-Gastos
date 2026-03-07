@@ -12,9 +12,9 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
 				<div className="absolute top-0 left-0 p-2">
 					<button
 						type="button"
-						className="bg-accent p-2 rounded-sm cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#4232f1] hover:scale-105 hover:shadow-md"
+						className="group bg-accent w-9 h-9 flex items-center justify-center	rounded-sm cursor-pointer							transition-colors duration-200hover:bg-[#4232f1]	hover:shadow-md"
 					>
-						<ArrowBigLeftDash className="text-white size-5" />
+						<ArrowBigLeftDash className="text-white w-5 h-5 transition-transform duration-200	group-hover:-translate-x-1" />
 					</button>
 				</div>
 				<div className="absolute top-0 right-0 p-2">
