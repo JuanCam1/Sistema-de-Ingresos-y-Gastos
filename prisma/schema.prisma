@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  output   = "./generated/prisma"
 }
 
 // datasource db {
@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
+  id        String  @id @default(cuid())
   name      String?
   email     String  @unique
   telephone String?
@@ -27,10 +27,31 @@ model User {
   state state @relation(fields: [stateId], references: [id])
 
   movements Movement[]
+  accounts  Account[]
+  sessions  Session[]
 
   @@index([roleId])
   @@index([stateId])
   @@map("users")
+}
+
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Movement {
@@ -38,8 +59,8 @@ model Movement {
   monto Decimal
   fecha DateTime
 
-  typeId Int @map("type_id")
-  userId Int @map("user_id")
+  typeId Int    @map("type_id")
+  userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
