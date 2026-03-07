@@ -6,13 +6,10 @@ import {
 	getCoreRowModel,
 	getPaginationRowModel,
 	useReactTable,
-	SortingState,
 	getSortedRowModel,
-	ColumnFiltersState,
-	getFilteredRowModel,
-	PaginationState,
+	getFilteredRowModel
 } from "@tanstack/react-table";
-
+import { useMovementTable } from "@/hooks/use-movement-table";
 import {
 	Table,
 	TableBody,
@@ -22,103 +19,68 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
-import { useQuery } from "@tanstack/react-query";
-import { UserResponse } from "@/models/user-response-model";
-import { fetchUsers } from "@/services/user-services";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTableMovement<TData, TValue>({
 	columns,
 }: DataTableProps<TData, TValue>) {
-	const [sorting, setSorting] = useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-	const [pagination, setPagination] = useState<PaginationState>({
-		pageIndex: 0,
-		pageSize: 5,
-	});
-
-	const page = pagination.pageIndex + 1;
-	const perPage = pagination.pageSize;
-
-	const nameFilter = useMemo(() => {
-		return (columnFilters.find((c) => c.id === "name")?.value as string) ?? "";
-	}, [columnFilters]);
-
-	const emailFilter = useMemo(() => {
-		return (columnFilters.find((c) => c.id === "email")?.value as string) ?? "";
-	}, [columnFilters]);
-
-	const { data, isLoading, error } = useQuery<UserResponse>({
-		queryKey: [
-			"users",
-			{ page, perPage, name: nameFilter, email: emailFilter },
-		],
-		queryFn: () =>
-			fetchUsers({
-				page,
-				perPage,
-				name: nameFilter,
-				email: emailFilter,
-			}),
-		placeholderData: (previousData) => previousData,
-	});
-
-	const users = data?.data ?? [];
-
-	const meta = data?.meta ?? {
-		total: 0,
-		page: 1,
-		perPage: 5,
-		totalPages: 1,
-	};
+	const {
+		movements,
+		meta,
+		query,
+		sorting,
+		setSorting,
+		columnFilters,
+		setColumnFilters,
+		pagination,
+		setPagination,
+	} = useMovementTable();
 
 	const table = useReactTable({
-		data: users as TData[],
+		data: movements as TData[],
 		columns,
-		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		onSortingChange: setSorting,
-		getSortedRowModel: getSortedRowModel(),
-		onColumnFiltersChange: setColumnFilters,
-		getFilteredRowModel: getFilteredRowModel(),
-		manualPagination: true,
 		pageCount: meta.totalPages,
-		onPaginationChange: setPagination,
+
 		state: {
 			sorting,
 			columnFilters,
 			pagination,
 		},
+
+		manualPagination: true,
+		onSortingChange: setSorting,
+		onColumnFiltersChange: setColumnFilters,
+		onPaginationChange: setPagination,
+
+		getCoreRowModel: getCoreRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
 	});
+
+	const isLoading = query.isLoading;
+	const error = query.error;
+
+	// Solucion del filtro
 
 	return (
 		<div>
 			<div className="flex items-center py-4">
 				<Input
-					placeholder="Filtrar por concepto..."
+					placeholder="Filtrar por movimiento"
 					value={
-						(table.getColumn("concepto")?.getFilterValue() as string) ?? ""
+						(table.getColumn("type")?.getFilterValue() as string) ?? ""
 					}
 					onChange={(event) =>
-						table.getColumn("concepto")?.setFilterValue(event.target.value)
-					}
-					className="max-w-sm"
-				/>
-				<Input
-					placeholder="Filtrar por usuario..."
-					value={
-						(table.getColumn("nombreUsuario")?.getFilterValue() as string) ?? ""
-					}
-					onChange={(event) =>
-						table.getColumn("nombreUsuario")?.setFilterValue(event.target.value)
+						table.getColumn("type")?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm ml-2"
 				/>
+
 			</div>
 			<div className="overflow-hidden rounded-md border">
 				<Table>
@@ -131,9 +93,9 @@ export function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
 										</TableHead>
 									);
 								})}
@@ -150,7 +112,7 @@ export function DataTable<TData, TValue>({
 									Cargando...
 								</TableCell>
 							</TableRow>
-						) : users.length ? (
+						) : movements.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
@@ -192,18 +154,7 @@ export function DataTable<TData, TValue>({
 					<div>
 						Page {meta.page} / {meta.totalPages}
 					</div>
-					<select
-						value={perPage}
-						onChange={(e) => {
-							table.setPageSize(Number(e.target.value));
-							setTimeout(() => table.setPageIndex(0), 0);
-						}}
-						className="border rounded px-2 py-1"
-					>
-						<option value={5}>5</option>
-						<option value={10}>10</option>
-						<option value={20}>20</option>
-					</select>
+
 				</div>
 				<Button
 					variant="outline"

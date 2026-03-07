@@ -12,26 +12,26 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableColumnHeaderUser } from "./data-table-column-header-user";
 import { UserModel } from "@/models/user-model";
 
-export const columns: ColumnDef<UserModel>[] = [
+export const columnsUser: ColumnDef<UserModel>[] = [
 	{
 		accessorKey: "name",
 		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title="Nombre" />
+			<DataTableColumnHeaderUser column={column} title="Nombre" />
 		),
 	},
 	{
 		accessorKey: "email",
 		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title="Correo" />
+			<DataTableColumnHeaderUser column={column} title="Correo" />
 		),
 	},
 	{
 		accessorKey: "telephone",
 		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title="Teléfono" />
+			<DataTableColumnHeaderUser column={column} title="Teléfono" />
 		),
 	},
 
