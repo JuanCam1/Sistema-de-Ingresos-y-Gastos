@@ -25,7 +25,7 @@ export default function LoginPage() {
 	return (
 		<div className="flex min-h-screen items-center justify-center ">
 			<Card className="w-full max-w-md p-8 bg-neutral-50">
-				<CardHeader className="font-roboto text-center border-b border-border text-blue-600 dark:text-blue-600 text-2xl font-bold ">
+				<CardHeader className="font-roboto text-center text-blue-600 dark:text-blue-600 text-2xl font-bold ">
 					Sistema de Gestión de Ingresos y Gastos
 				</CardHeader>
 				<Button
