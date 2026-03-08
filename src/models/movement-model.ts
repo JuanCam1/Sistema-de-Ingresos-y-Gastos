@@ -10,3 +10,10 @@ export interface MovementModel {
 	type: TypeMovementModel;
 	user: UserType;
 }
+
+export interface CreateMovementModel {
+	userId: string;
+	typeMovement: string;
+	amount: string;
+	fecha: string;
+}

@@ -60,4 +60,18 @@ export const movementService = {
 			},
 		};
 	},
+
+	async createMovement(data: {
+		userId: string;
+		typeMovement: string;
+		amount: string;
+		fecha: string;
+	}) {
+		return await movementRepository.createMovement({
+			userId: data.userId,
+			typeMovement: data.typeMovement,
+			amount: data.amount,
+			fecha: new Date(data.fecha),
+		});
+	},
 };

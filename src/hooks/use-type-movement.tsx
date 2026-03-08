@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchTypeMovements } from "@/fetchers/type-movement-fetcher";
-import { RoleModel } from "@/models/role-model";
+import { TypeMovementModel } from "@/models/type-movement-model";
 
 export function useTypeMovement() {
-	return useQuery<RoleModel[]>({
+	return useQuery<TypeMovementModel[]>({
 		queryKey: ["types-movement"],
 		queryFn: () => fetchTypeMovements(),
 		placeholderData: (prev) => prev,

@@ -30,11 +30,20 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { movementCreateSchema } from "@/schemas/movement-create-schema";
+import { useTypeMovement } from "@/hooks/use-type-movement";
+import { useCreateMovement } from "@/hooks/use-create-movement";
 
 interface Props {
 	userId: string;
+	handleClose: () => void;
 }
-export function FormCreateMovement({ userId }: Props) {
+export function FormCreateMovement({ userId, handleClose }: Props) {
+	const query = useTypeMovement();
+
+	const typesMovements = query.data ?? [];
+	const isLoading = query.isLoading;
+	const error = query.error;
+
 	const form = useForm<z.infer<typeof movementCreateSchema>>({
 		resolver: zodResolver(movementCreateSchema),
 		defaultValues: { amount: "", date: undefined, concept: "" },
@@ -42,9 +51,15 @@ export function FormCreateMovement({ userId }: Props) {
 		criteriaMode: "all",
 	});
 
+	const createMovement = useCreateMovement({ handleClose });
 	const onSubmit = (values: z.infer<typeof movementCreateSchema>) => {
-		console.log(userId);
-		console.log(values);
+		const data = {
+			amount: values.amount,
+			fecha: String(values.date),
+			typeMovement: values.concept,
+			userId,
+		};
+		createMovement.mutate(data);
 	};
 
 	return (
@@ -117,20 +132,33 @@ export function FormCreateMovement({ userId }: Props) {
 						render={({ field }) => (
 							<FormItem className="flex flex-col justify-center col-span-1">
 								<FormLabel>Concepto</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder="Seleccione el concepto" />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectItem value="1">Ingreso</SelectItem>
-										<SelectItem value="2">Egreso</SelectItem>
-									</SelectContent>
-								</Select>
+
+								{isLoading ? (
+									<div className="p-2 text-center text-sm text-gray-500">
+										Cargando...
+									</div>
+								) : error ? (
+									<div className="p-2 text-center text-sm text-red-500">
+										Ocurrió un error al cargar los conceptos
+									</div>
+								) : (
+									<Select value={field.value} onValueChange={field.onChange}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Seleccione el concepto" />
+											</SelectTrigger>
+										</FormControl>
+
+										<SelectContent>
+											{typesMovements.map((type) => (
+												<SelectItem key={type.id} value={String(type.id)}>
+													{type.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								)}
+
 								<FormMessage />
 							</FormItem>
 						)}

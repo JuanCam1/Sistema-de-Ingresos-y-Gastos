@@ -21,7 +21,7 @@ export function DialogCreateMovement({
 			handleCloseModel={handleCloseModel}
 			width="w-[700px]"
 		>
-			<FormCreateMovement userId={userId} />
+			<FormCreateMovement userId={userId} handleClose={handleCloseModel} />
 		</DialogBase>
 	);
 }

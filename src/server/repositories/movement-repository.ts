@@ -40,4 +40,21 @@ export const movementRepository = {
 			},
 		});
 	},
+
+	async createMovement(data: {
+		userId: string;
+		typeMovement: string;
+		amount: string;
+		fecha: Date;
+	}) {
+		return prisma.movement.create({
+			data: {
+				monto: Number(data.amount),
+				fecha: data.fecha,
+				typeId: Number(data.typeMovement),
+				userId: data.userId,
+			},
+		});
+	},
 };
+``;

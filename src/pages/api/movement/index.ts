@@ -9,5 +9,9 @@ export default async function handler(
 		return movementController.getMovements(req, res);
 	}
 
+	if (req.method === "POST") {
+		return movementController.createMovement(req, res);
+	}
+
 	res.status(405).end();
 }

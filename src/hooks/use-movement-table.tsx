@@ -31,7 +31,7 @@ export function useMovementTable({ userId }: Props) {
 
 	const query = useQuery<MovementResponse>({
 		queryKey: [
-			"mvements",
+			"movements",
 			{ page, perPage, idUser: userId, typeMovement: typeMovementFilter },
 		],
 		queryFn: () =>
