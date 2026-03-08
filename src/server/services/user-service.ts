@@ -4,6 +4,11 @@ import { userRepository } from "../repositories/user-repository";
 import { UserFilters } from "../types/user-filter-type";
 
 export const userService = {
+	/**
+	 * Consulta usuarios con filtros y paginacion.
+	 * @param filters Filtros de busqueda (name, userId, page, perPage).
+	 * @returns Objeto con usuarios y metadatos de paginacion.
+	 */
 	async getUsers(filters: UserFilters) {
 		const page = filters.page ?? 1;
 		const perPage = filters.perPage ?? 10;
@@ -62,10 +67,21 @@ export const userService = {
 		};
 	},
 
+	/**
+	 * Obtiene el rol de un usuario por su ID.
+	 * @param id ID del usuario.
+	 * @returns Informacion del rol del usuario.
+	 */
 	async getRoleByIdUser(id: string) {
 		return userRepository.getRoleByIdUser(id);
 	},
 
+	/**
+	 * Actualiza datos de usuario (nombre y rol).
+	 * @param userId ID del usuario a actualizar.
+	 * @param data Datos del usuario (name, roleId).
+	 * @returns Usuario actualizado.
+	 */
 	async updateUser(userId: string, data: { name: string; roleId: number }) {
 		return userRepository.updateUser(userId, data);
 	},

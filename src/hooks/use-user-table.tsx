@@ -11,6 +11,10 @@ import {
 import { fetchUsers } from "@/fetchers/user-fetcher";
 import { UserResponse } from "@/models/user-response-model";
 
+/**
+ * Hook para tabla de usuarios con paginacion, filtros y sorting.
+ * @returns Datos de usuarios, metadata, estado de tabla (sorting, filters, pagination) y setters.
+ */
 export function useUsersTable() {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

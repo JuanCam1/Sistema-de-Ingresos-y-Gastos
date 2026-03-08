@@ -21,9 +21,10 @@ type ApiHandler = (
 ) => Promise<void> | void;
 
 /**
- * Middleware de autenticación y autorización
- * @param handler Función que maneja la request si pasa la autenticación
- * @param methodRoles Objeto con métodos y roles permitidos
+ * Middleware de autenticacion/autorizacion por metodo HTTP.
+ * @param handler Handler de API que se ejecuta si el usuario esta autenticado y autorizado.
+ * @param methodRoles Mapa opcional de metodos (`GET`, `POST`, etc.) a roles permitidos.
+ * @returns Funcion API de Next.js con validacion de sesion y permisos.
  */
 export function withMethodRoles(
 	handler: ApiHandler,

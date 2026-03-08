@@ -3,6 +3,12 @@ import { userService } from "../services/user-service";
 import { UserFilters } from "../types/user-filter-type";
 
 export const userController = {
+	/**
+	 * Lista usuarios segun filtros de query y reglas por rol.
+	 * @param req Request de Next.js con query params (`name`, `page`, `perPage`, `roleId`, `userId`).
+	 * @param res Response de Next.js.
+	 * @returns Respuesta HTTP con usuarios paginados o error.
+	 */
 	async getUsers(req: NextApiRequest, res: NextApiResponse) {
 		const filters: UserFilters = {
 			name: req.query.name as string,
@@ -25,6 +31,12 @@ export const userController = {
 		}
 	},
 
+	/**
+	 * Obtiene el rol de un usuario por su ID.
+	 * @param req Request de Next.js con `userId` en query.
+	 * @param res Response de Next.js.
+	 * @returns Respuesta HTTP con informacion del rol o error.
+	 */
 	async getRoleByIdUser(req: NextApiRequest, res: NextApiResponse) {
 		const userId = req.query.userId as string;
 
@@ -41,6 +53,12 @@ export const userController = {
 		}
 	},
 
+	/**
+	 * Actualiza datos del usuario (nombre y rol).
+	 * @param req Request de Next.js con `userId` en path/query y `name`/`roleId` en body.
+	 * @param res Response de Next.js.
+	 * @returns Respuesta HTTP con usuario actualizado o error de validacion/persistencia.
+	 */
 	async updateUser(req: NextApiRequest, res: NextApiResponse) {
 		const { userId } = req.query;
 		const { name, roleId } = req.body as {

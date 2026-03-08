@@ -3,6 +3,11 @@ import { movementRepository } from "../repositories/movement-repository";
 import { MovementFilters } from "../types/movement-filter-type";
 
 export const movementService = {
+	/**
+	 * Consulta movimientos con filtros y metadatos de paginacion.
+	 * @param filters Filtros de busqueda (`userId`, `typeMovement`, `page`, `perPage`).
+	 * @returns Objeto con `data` y `meta` para la tabla/reportes.
+	 */
 	async getMovements(filters: MovementFilters) {
 		const page = Math.max(1, filters.page || 1);
 		const perPage = Math.max(1, filters.perPage || 10);
@@ -61,6 +66,11 @@ export const movementService = {
 		};
 	},
 
+	/**
+	 * Crea un movimiento nuevo en base de datos.
+	 * @param data Datos del movimiento desde el cliente.
+	 * @returns Movimiento creado por el repositorio.
+	 */
 	async createMovement(data: {
 		userId: string;
 		typeMovement: string;

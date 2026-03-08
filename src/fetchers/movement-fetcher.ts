@@ -8,6 +8,15 @@ interface FetchMovementParams {
 	typeMovement?: string;
 }
 
+/**
+ * Obtiene movimientos desde la API con filtros y paginacion.
+ * @param params Parametros de busqueda.
+ * @param params.page Numero de pagina.
+ * @param params.perPage Cantidad de registros por pagina.
+ * @param params.userId ID del usuario para filtrar movimientos.
+ * @param params.typeMovement Tipo de movimiento (opcional) para filtrar.
+ * @returns Promesa con respuesta paginada de movimientos.
+ */
 export const fetchMovement = async ({
 	userId,
 	typeMovement,
@@ -26,6 +35,11 @@ export const fetchMovement = async ({
 	return res.json();
 };
 
+/**
+ * Crea un nuevo movimiento mediante la API.
+ * @param data Datos del movimiento a crear (userId, typeMovement, amount, fecha).
+ * @returns Promesa con el movimiento creado.
+ */
 export const fetchCreateMovement = async (data: CreateMovementModel) => {
 	const res = await fetch(`/api/movement`, {
 		method: "POST",

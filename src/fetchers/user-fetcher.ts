@@ -9,6 +9,16 @@ interface FetchUsersParams {
 	userId?: string;
 }
 
+/**
+ * Obtiene usuarios desde la API con filtros y paginacion.
+ * @param params Parametros de busqueda.
+ * @param params.page Numero de pagina.
+ * @param params.perPage Cantidad de registros por pagina.
+ * @param params.name Filtro por nombre (opcional).
+ * @param params.roleId ID del rol para aplicar reglas de filtrado.
+ * @param params.userId ID de usuario especifico (opcional).
+ * @returns Promesa con respuesta paginada de usuarios.
+ */
 export const fetchUsers = async ({
 	page,
 	perPage,
@@ -29,6 +39,11 @@ export const fetchUsers = async ({
 	return res.json();
 };
 
+/**
+ * Actualiza datos de un usuario mediante la API.
+ * @param data Datos del usuario a actualizar (id, name, roleId).
+ * @returns Promesa con el usuario actualizado.
+ */
 export const fetchUpdateUser = async (data: UserUpdateModel) => {
 	const body = {
 		name: data.name,

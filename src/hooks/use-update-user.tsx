@@ -6,6 +6,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface Props {
 	handleClose: () => void;
 }
+
+/**
+ * Actualiza datos de un usuario y sincroniza UI con side effects.
+ * @param params Parametros del hook.
+ * @param params.handleClose Callback para cerrar el modal despues de actualizar.
+ * @returns Mutacion de React Query para ejecutar actualizacion del usuario.
+ */
 export function useUpdateUser({ handleClose }: Props) {
 	const queryClient = useQueryClient();
 

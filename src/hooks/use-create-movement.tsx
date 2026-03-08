@@ -6,6 +6,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface Props {
 	handleClose: () => void;
 }
+
+/**
+ * Crea un movimiento y sincroniza la UI con side effects de exito/error.
+ * @param params Parametros del hook.
+ * @param params.handleClose Callback para cerrar el modal al finalizar.
+ * @returns Mutacion de React Query para ejecutar la creacion del movimiento.
+ */
 export function useCreateMovement({ handleClose }: Props) {
 	const queryClient = useQueryClient();
 

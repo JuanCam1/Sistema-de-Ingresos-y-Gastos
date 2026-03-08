@@ -11,6 +11,13 @@ import { useQuery } from "@tanstack/react-query";
 interface Props {
 	userId: string;
 }
+
+/**
+ * Hook para tabla de movimientos con paginacion, filtros y sorting.
+ * @param params Parametros del hook.
+ * @param params.userId ID del usuario para filtrar movimientos.
+ * @returns Datos de movimientos, metadata, estado de tabla (sorting, filters, pagination) y setters.
+ */
 export function useMovementTable({ userId }: Props) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
