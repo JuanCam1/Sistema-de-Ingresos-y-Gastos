@@ -1,40 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
-## Getting Started
+# Prueba Tecnica - Sistema de Gestion de Ingresos y Gastos
 
-First, run the development server:
+Sistema de gestión de ingresos y gastos
+
+## Stack
+- [Next.js](https://nextjs.org/) + [React](https://es.react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Prisma ORM](https://www.prisma.io/) (PostgreSQL)
+- [Better Auth](https://www.better-auth.com/) (login social con GitHub + sesiones)
+- [TanStack React Query](https://tanstack.com/query/latest)
+- [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- [Biome](https://biomejs.dev/) (lint y formato)
+- [Vitest](https://vitest.dev/) + Testing Library (pruebas)
+
+## Requisitos
+- [Node.js](https://nodejs.org/en/) (recomendado: `v24.13.0`, minimo `v20+`)
+- [npm](https://www.npmjs.com/)
+- [Git](https://git-scm.com/)
+
+## Variables de Entorno
+Este proyecto usa `.env.local`.
+
+Crea el archivo `.env.local` en la raiz del proyecto con al menos:
+
+```env
+DATABASE_URL=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+NEXT_PUBLIC_APP_URL=
+```
+
+## Instalacion
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/JuanCam1/Prueba-Tecnica.git
+cd Prueba-Tecnica
+```
+
+2. Instala dependencias:
+
+```bash
+npm install
+```
+
+Nota:
+`npm install` ejecuta `postinstall` y corre automaticamente:
+- `prisma generate`
+- `tsx prisma/seed.ts`
+
+## Ejecutar en Desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Aplicacion:
+- `http://localhost:3000`
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Documentacion API (Swagger)
+Con el proyecto en ejecucion, abre:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- `http://localhost:3000/api/docs`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+El JSON OpenAPI se sirve en:
+- `http://localhost:3000/api/swagger.json`
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts Disponibles
+- `npm run dev`: inicia el entorno de desarrollo
+- `npm run test`: ejecuta pruebas unitarias con Vitest
+- `npm run lint`: lint con Biome (modo write)
+- `npm run format`: formatea codigo con Biome
 
-## Learn More
+## Pruebas
+Ejecutar todas las pruebas:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+Actualmente incluye pruebas de alto valor para:
+- Flujo de login en `pages/index.tsx` con Better Auth (GitHub)
+- Redireccion cuando el usuario ya tiene sesion
+- Flujo de creacion de movimiento en `useCreateMovement` (mutacion + invalidacion de cache + notificacion)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Autenticacion
+- Proveedor social: GitHub
+- Manejo de sesion: Better Auth
 
-## Deploy on Vercel
+## Deploy en Vercel
+1. Sube el proyecto a GitHub:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+git push
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+2. Entra a [Vercel](https://vercel.com/), selecciona **Add New Project** e importa tu repositorio.
+
+3. Configura las variables de entorno en Vercel (Project Settings -> Environment Variables):
+
+```env
+DATABASE_URL=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+NEXT_PUBLIC_APP_URL=
+```
+
+4. En `NEXT_PUBLIC_APP_URL` coloca la URL publica del deploy, por ejemplo:
+- `https://tu-proyecto.vercel.app`
+
+5. En GitHub OAuth App, agrega/actualiza la URL de callback para el dominio de Vercel.
+
+6. Despliega el proyecto con **Deploy**.
+

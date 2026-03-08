@@ -1,0 +1,678 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sistema de gestión de ingresos y gastos",
+    "description": "API de gestión de usuarios, roles, movimientos y tipos de movimiento. Documentación completa de endpoints con parámetros, request bodies y response schemas.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Desarrollo"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BetterAuthSession": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "session-token",
+        "description": "Token de sesión desde Better Auth. Autentica vía GitHub. Incluiyelo en el header: Authorization: Bearer <token>"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID único del usuario"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre completo del usuario"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email del usuario"
+          },
+          "telephone": {
+            "type": "string",
+            "nullable": true,
+            "description": "Teléfono del usuario"
+          },
+          "image": {
+            "type": "string",
+            "description": "URL de la imagen de perfil"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID del rol"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del rol (ej: Administrador, Usuario)"
+          }
+        }
+      },
+      "Movement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID único del movimiento"
+          },
+          "monto": {
+            "type": "number",
+            "description": "Monto del movimiento"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha del movimiento"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TypeMovement"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "TypeMovement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID del tipo de movimiento"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del tipo (ej: Ingreso, Egreso)"
+          }
+        }
+      },
+      "PaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array"
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "page": {
+                "type": "integer"
+              },
+              "perPage": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "RolesResponse": {
+        "type": "object",
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          }
+        }
+      },
+      "TypeMovementsResponse": {
+        "type": "object",
+        "properties": {
+          "movements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TypeMovement"
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensaje de error"
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/user": {
+      "get": {
+        "operationId": "getUsers",
+        "tags": ["Usuario"],
+        "summary": "Obtener listado de usuarios",
+        "description": "Obtiene un listado paginado de usuarios. Los usuarios normales solo ven sus propios datos, administradores ven todos.",
+        "security": [{"BetterAuthSession": []}],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "Cantidad de registros por página (default: 10)",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filtrar por nombre del usuario",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roleId",
+            "in": "query",
+            "description": "ID del rol para filtrar",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID específico del usuario (requerido si roleId es 1)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado de usuarios obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {"type": "integer"},
+                        "page": {"type": "integer"},
+                        "perPage": {"type": "integer"},
+                        "totalPages": {"type": "integer"}
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": "user-1",
+                      "name": "Juan Pérez",
+                      "email": "juan@example.com",
+                      "telephone": "1234567890",
+                      "image": "https://example.com/avatar.jpg",
+                      "role": {
+                        "id": 2,
+                        "name": "Usuario"
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "total": 50,
+                    "page": 1,
+                    "perPage": 10,
+                    "totalPages": 5
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ErrorResponse"},
+                "example": {
+                  "message": "Missing userId query parameter"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "Acceso denegado"
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/{userId}": {
+      "put": {
+        "operationId": "updateUser",
+        "tags": ["Usuario"],
+        "summary": "Actualizar usuario",
+        "description": "Actualiza el nombre y/o rol de un usuario existente. Solo administradores pueden realizar esta operación.",
+        "security": [{"BetterAuthSession": []}],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID del usuario a actualizar",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Datos del usuario a actualizar (name y roleId son requeridos)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "roleId"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nuevo nombre del usuario",
+                    "minLength": 2,
+                    "maxLength": 100
+                  },
+                  "roleId": {
+                    "type": "integer",
+                    "description": "ID del nuevo rol (1: Administrador, 2: Usuario)",
+                    "enum": [1, 2]
+                  }
+                }
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Cambiar nombre y rol a Administrador",
+                  "value": {
+                    "name": "Juan Carlos Pérez",
+                    "roleId": 1
+                  }
+                },
+                "example2": {
+                  "summary": "Cambiar nombre y rol a Usuario",
+                  "value": {
+                    "name": "María García López",
+                    "roleId": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario actualizado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": "user-123",
+                  "name": "Juan Carlos Pérez",
+                  "email": "juan@example.com",
+                  "telephone": null,
+                  "image": "https://example.com/avatar.jpg",
+                  "role": {
+                    "id": 1,
+                    "name": "Administrador"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos o campos faltantes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "missingFields": {
+                    "summary": "Campos requeridos faltantes",
+                    "value": {
+                      "message": "Missing required fields: name and roleId"
+                    }
+                  },
+                  "invalidRoleId": {
+                    "summary": "roleId no es un número",
+                    "value": {
+                      "message": "roleId must be a number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado - Token inválido o ausente"
+          },
+          "403": {
+            "description": "Acceso denegado - Solo administradores pueden actualizar usuarios"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    },
+
+    "/api/role": {
+      "get": {
+        "operationId": "getRoles",
+        "tags": ["Rol"],
+        "summary": "Obtener listado de roles",
+        "description": "Obtiene todos los roles disponibles en el sistema. Solo administradores pueden acceder.",
+        "security": [{"BetterAuthSession": []}],
+        "responses": {
+          "200": {
+            "description": "Listado de roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolesResponse"
+                },
+                "example": {
+                  "roles": [
+                    {
+                      "id": 1,
+                      "name": "Administrador"
+                    },
+                    {
+                      "id": 2,
+                      "name": "Usuario"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "Acceso denegado - Solo administradores"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    },
+
+    "/api/movement": {
+      "get": {
+        "operationId": "getMovements",
+        "tags": ["Movimiento"],
+        "summary": "Obtener listado de movimientos",
+        "description": "Obtiene un listado paginado de movimientos filtrado por usuario y/o tipo de movimiento. Los usuarios normales solo ven sus propios movimientos.",
+        "security": [{"BetterAuthSession": []}],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "ID del usuario para filtrar movimientos (requerido)",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "typeMovement",
+            "in": "query",
+            "description": "ID del tipo de movimiento para filtrar (1: Ingreso, 2: Egreso)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "Cantidad de registros por página (default: 10)",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado de movimientos obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PaginatedResponse"},
+                "example": {
+                  "data": [
+                    {
+                      "id": "mov-1",
+                      "monto": 5000,
+                      "fecha": "2026-03-08T10:30:00Z",
+                      "type": {
+                        "id": 1,
+                        "name": "Ingreso"
+                      },
+                      "user": {
+                        "id": "user-1",
+                        "name": "Juan Pérez"
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "total": 25,
+                    "page": 1,
+                    "perPage": 10,
+                    "totalPages": 3
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createMovement",
+        "tags": ["Movimiento"],
+        "summary": "Crear nuevo movimiento",
+        "description": "Crea un nuevo movimiento en el sistema. Solo administradores pueden crear movimientos.",
+        "security": [{"BetterAuthSession": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["userId", "typeMovement", "amount", "fecha"],
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "ID del usuario"
+                  },
+                  "typeMovement": {
+                    "type": "string",
+                    "description": "ID del tipo de movimiento"
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "Monto del movimiento"
+                  },
+                  "fecha": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Fecha del movimiento (ISO 8601)"
+                  }
+                }
+              },
+              "example": {
+                "userId": "user-123",
+                "typeMovement": "1",
+                "amount": "5000",
+                "fecha": "2026-03-08T10:30:00Z"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Movimiento creado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Movement"}
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos o faltantes",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ErrorResponse"},
+                "example": {
+                  "message": "Missing required fields"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "Acceso denegado - Solo administradores"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    },
+    "/api/type-movement": {
+      "get": {
+        "operationId": "getTypeMovements",
+        "tags": ["Tipo de Movimiento"],
+        "summary": "Obtener tipos de movimiento",
+        "description": "Obtiene todos los tipos de movimiento disponibles en el sistema. Solo administradores pueden acceder.",
+        "security": [{"BetterAuthSession": []}],
+        "responses": {
+          "200": {
+            "description": "Listado de tipos de movimiento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypeMovementsResponse"
+                },
+                "example": {
+                  "movements": [
+                    {
+                      "id": 1,
+                      "name": "Ingreso"
+                    },
+                    {
+                      "id": 2,
+                      "name": "Egreso"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "Acceso denegado - Solo administradores"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    }
+  }
+}
