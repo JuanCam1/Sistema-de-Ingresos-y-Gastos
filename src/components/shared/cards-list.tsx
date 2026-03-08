@@ -1,9 +1,9 @@
 import { UserModel } from "@/models/user-model";
+import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react";
 import { Loading } from "./loading";
 import { Card, CardContent } from "../ui/card";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
-import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react";
 
 interface Props {
 	isLoading: boolean;
@@ -11,7 +11,7 @@ interface Props {
 	action: (user: UserModel) => void;
 	users: UserModel[];
 }
-export default function CardList({ users, isLoading, error, action }: Props) {
+export function CardList({ users, isLoading, error, action }: Props) {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-5 gap-8 w-full max-w-[1000px] mt-6">
 			{isLoading ? (

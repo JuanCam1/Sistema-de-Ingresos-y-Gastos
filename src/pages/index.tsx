@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardFooter } from "@/components/ui/card";
-import GitHubIcon from "@/components/icons/github-icon";
+import { GitHubIcon } from "@/components/icons/github-icon";
 
 export default function LoginPage() {
 	const router = useRouter();

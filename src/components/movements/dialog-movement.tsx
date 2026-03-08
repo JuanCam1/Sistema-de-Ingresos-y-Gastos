@@ -1,4 +1,4 @@
-import DialogBase from "@/components/shared/dialog-base";
+import { DialogBase } from "@/components/shared/dialog-base";
 import { columnsMovement } from "@/components/shared/table-movement/columns-movement";
 import { DataTableMovement } from "@/components/shared/table-movement/data-table-movement";
 import { UserModel } from "@/models/user-model";
@@ -8,7 +8,7 @@ interface Props {
 	showModel: boolean;
 	handleCloseModel: () => void;
 }
-export default function DialogMovement({
+export function DialogMovement({
 	userSelected,
 	showModel,
 	handleCloseModel,

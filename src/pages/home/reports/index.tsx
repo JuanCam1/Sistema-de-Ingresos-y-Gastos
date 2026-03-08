@@ -1,9 +1,9 @@
-import DialogReport from "@/components/reports/dialog-report";
-import CardList from "@/components/shared/cards-list";
-import useUserList from "@/hooks/use-user-list";
-import HomeLayout from "@/layouts/home-layout";
-import { UserModel } from "@/models/user-model";
 import { ReactElement, useState } from "react";
+import { DialogReport } from "@/components/reports/dialog-report";
+import { CardList } from "@/components/shared/cards-list";
+import useUserList from "@/hooks/use-user-list";
+import { HomeLayout } from "@/layouts/home-layout";
+import { UserModel } from "@/models/user-model";
 
 export default function ReportPage() {
 	const query = useUserList();

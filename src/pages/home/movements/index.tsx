@@ -1,9 +1,9 @@
-import DialogMovement from "@/components/movements/dialog-movement";
-import CardList from "@/components/shared/cards-list";
-import useUserList from "@/hooks/use-user-list";
-import HomeLayout from "@/layouts/home-layout";
-import { UserModel } from "@/models/user-model";
 import { ReactElement, useState } from "react";
+import useUserList from "@/hooks/use-user-list";
+import { HomeLayout } from "@/layouts/home-layout";
+import { UserModel } from "@/models/user-model";
+import { DialogMovement } from "@/components/movements/dialog-movement";
+import { CardList } from "@/components/shared/cards-list";
 
 export default function MovementsPage() {
 	const query = useUserList();

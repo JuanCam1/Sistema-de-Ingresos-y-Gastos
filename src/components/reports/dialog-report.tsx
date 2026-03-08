@@ -1,13 +1,13 @@
 import { UserModel } from "@/models/user-model";
-import DialogBase from "@/components/shared/dialog-base";
-import ReportChart from "./report-chart";
+import { DialogBase } from "@/components/shared/dialog-base";
+import { ReportChart } from "./report-chart";
 
 interface Props {
 	userSelected: UserModel;
 	showModel: boolean;
 	handleCloseModel: () => void;
 }
-export default function DialogReport({
+export function DialogReport({
 	userSelected,
 	showModel,
 	handleCloseModel,

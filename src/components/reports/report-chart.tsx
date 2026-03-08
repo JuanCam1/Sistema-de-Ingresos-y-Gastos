@@ -31,7 +31,7 @@ ChartJS.register(
 interface Props {
 	userSelected: UserModel;
 }
-export default function ReportChart({ userSelected }: Props) {
+export function ReportChart({ userSelected }: Props) {
 	const query = useMovementList({ userId: userSelected.id });
 	const movements = query.data?.data ?? [];
 	const isLoading = query.isLoading;
