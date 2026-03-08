@@ -20,6 +20,10 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Loading } from "../loading";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CheckCircle2Icon } from "lucide-react";
+import { Pagination } from "../pagination";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -28,6 +32,7 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTableMovement<TData, TValue>({
 	columns,
+	userId,
 }: DataTableProps<TData, TValue>) {
 	const {
 		movements,
@@ -39,7 +44,7 @@ export function DataTableMovement<TData, TValue>({
 		setColumnFilters,
 		pagination,
 		setPagination,
-	} = useMovementTable();
+	} = useMovementTable({ userId });
 
 	const table = useReactTable({
 		data: movements as TData[],
@@ -66,11 +71,15 @@ export function DataTableMovement<TData, TValue>({
 	const isLoading = query.isLoading;
 	const error = query.error;
 
+	const rows = table.getRowModel().rows;
+	const pageSize = pagination.pageSize;
+	const emptyRows = pageSize - rows.length;
+
 	return (
-		<div>
-			<div className="flex items-center py-4">
+		<div className="w-full max-w-[1000px]">
+			<div className="flex items-center justify-between py-4">
 				<Input
-					placeholder="Filtrar por movimiento"
+					placeholder="Buscar por movimiento"
 					value={(table.getColumn("type")?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
 						table.getColumn("type")?.setFilterValue(event.target.value)
@@ -78,14 +87,17 @@ export function DataTableMovement<TData, TValue>({
 					className="max-w-sm ml-2"
 				/>
 			</div>
-			<div className="overflow-hidden rounded-md border">
-				<Table>
-					<TableHeader>
+			<div className="overflow-hidden rounded-md border border-gray-200 min-h-[480px]">
+				<Table className="w-full">
+					<TableHeader className="bg-primary text-white">
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead
+											key={header.id}
+											className="px-8 py-2 text-md font-semibold text-white"
+										>
 											{header.isPlaceholder
 												? null
 												: flexRender(
@@ -103,63 +115,65 @@ export function DataTableMovement<TData, TValue>({
 							<TableRow>
 								<TableCell
 									colSpan={columns.length as number}
-									className="h-24 text-center"
+									className="h-[480px] text-center"
 								>
-									Cargando...
+									<Loading />
 								</TableCell>
 							</TableRow>
 						) : movements.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow
-									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext(),
-											)}
-										</TableCell>
-									))}
-								</TableRow>
-							))
+							<>
+								{rows.map((row) => (
+									<TableRow
+										key={row.id}
+										className="border-b transition-colors bg-gray-50 dark:text-white dark:bg-zinc-700 hover:bg-[#e0e7ff] dark:hover:bg-zinc-800"
+									>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell key={cell.id} className="px-8 text-md">
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext(),
+												)}
+											</TableCell>
+										))}
+									</TableRow>
+								))}
+
+								{Array.from({ length: emptyRows }).map((_, i) => (
+									<TableRow key={`empty-${i}`} className="h-13.25">
+										<TableCell colSpan={columns.length}></TableCell>
+									</TableRow>
+								))}
+							</>
 						) : (
 							<TableRow>
 								<TableCell
-									colSpan={columns.length as number}
-									className="h-24 text-center"
+									colSpan={columns.length}
+									className="h-[440px] text-center"
 								>
-									No results.
+									<div className="flex flex-col items-center justify-center gap-4">
+										<Alert className="max-w-md py-4">
+											<AlertTitle className="font-bold">
+												No se encontraron movimientos
+											</AlertTitle>
+											<AlertDescription>
+												No hay movimientos de este usuario.
+											</AlertDescription>
+										</Alert>
+									</div>
 								</TableCell>
 							</TableRow>
 						)}
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex items-center justify-end space-x-2 py-4">
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => table.previousPage()}
-					disabled={!table.getCanPreviousPage()}
-				>
-					Previous
-				</Button>
-				<div className="flex items-center gap-2">
-					<div>
-						Page {meta.page} / {meta.totalPages}
-					</div>
-				</div>
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => table.nextPage()}
-					disabled={!table.getCanNextPage()}
-				>
-					Next
-				</Button>
-			</div>
+			<Pagination
+				page={meta.page}
+				totalPages={meta.totalPages}
+				previousPage={() => table.previousPage()}
+				nextPage={() => table.nextPage()}
+				getCanPreviousPage={() => table.getCanPreviousPage()}
+				getCanNextPage={() => table.getCanNextPage()}
+			/>
 
 			{error && <div className="text-red-600">Error cargando datos</div>}
 		</div>

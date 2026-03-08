@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeaderMovement } from "./data-table-column-header-movement";
 import { MovementModel } from "@/models/movement-model";
+import { formatDate } from "@/lib/format-date";
 
 export const columnsMovement: ColumnDef<MovementModel>[] = [
 	{
@@ -24,15 +25,14 @@ export const columnsMovement: ColumnDef<MovementModel>[] = [
 		),
 		cell: ({ row }) => {
 			const fecha = row.original.fecha;
-			console.log(row)
-			return new Date(fecha).toLocaleDateString("es-CO");
+			return formatDate(String(fecha));
 		},
 	},
 	{
 		accessorFn: (row) => row.type.name,
 		id: "type",
 		header: ({ column }) => (
-			<DataTableColumnHeaderMovement column={column} title="Tipo Movimiento" />
+			<DataTableColumnHeaderMovement column={column} title="Movimiento" />
 		),
-	}
+	},
 ];

@@ -23,7 +23,7 @@ export default function DialogBase({
 		<Dialog open={showModel} onOpenChange={handleCloseModel}>
 			<DialogContent className="w-[1000px]">
 				<DialogHeader>
-					<DialogTitle>Movimientos {name}</DialogTitle>
+					<DialogTitle>Movimientos de {name}</DialogTitle>
 					<DialogDescription>{children}</DialogDescription>
 				</DialogHeader>
 			</DialogContent>
