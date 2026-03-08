@@ -15,17 +15,20 @@ import { NavUser } from "./nav-user";
 interface Props extends ComponentProps<typeof Sidebar> {
 	name: string;
 	image: string;
-	role: string;
-	roleId: string;
+	role?: string;
+	roleId?: string;
 }
 export function AppSidebar({ name, image, role, roleId, ...props }: Props) {
+	const finalRole = role || "Usuario";
+	const finalRoleId = roleId || "1";
+	
 	return (
 		<Sidebar {...props}>
 			<SidebarHeader>
-				<AvatarSidebar name={name} image={image} role={role} roleId={roleId} />
+				<AvatarSidebar name={name} image={image} role={finalRole} roleId={finalRoleId} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavPaths role={role} />
+				<NavPaths role={finalRole} />
 			</SidebarContent>
 			<SidebarFooter>
 				<NavUser />

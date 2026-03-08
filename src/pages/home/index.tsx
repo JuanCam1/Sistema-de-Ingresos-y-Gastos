@@ -49,7 +49,7 @@ export default function HomePage() {
 							onClick={() => handlePage(card.url)}
 						>
 							<CardContent className="flex flex-col items-center justify-center h-full text-center gap-6">
-								<div className="p-5 rounded-full bg-primary/20">
+								<div className=" rounded-full bg-primary/20">
 									<Icon className="size-16 text-white" />
 								</div>
 

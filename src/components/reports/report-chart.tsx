@@ -16,8 +16,9 @@ import { Loading } from "../shared/loading";
 
 import { groupMovementsByMonth } from "@/utils/reduce-movements";
 import { formatCOP } from "@/utils/format-cop";
-import { CloudDownload } from "lucide-react";
+import { AlertCircleIcon, CloudDownload } from "lucide-react";
 import { downloadMovementsCSV } from "@/utils/donwload-csv";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 ChartJS.register(
 	CategoryScale,
@@ -42,9 +43,19 @@ export function ReportChart({ userSelected }: Props) {
 	return (
 		<>
 			{isLoading ? (
+				<div className="w-[640px]">
+
 				<Loading />
+				</div>
 			) : error ? (
-				<p>Error al cargar los movimientos</p>
+				<Alert variant="destructive" className="max-w-md">
+					<AlertCircleIcon />
+					<AlertTitle>Error</AlertTitle>
+					<AlertDescription>
+						Ha ocurrido un error al cargar el reportres. Por favor, inténtalo de
+						nuevo más tarde.
+					</AlertDescription>
+				</Alert>
 			) : (
 				<>
 					<Bar data={data} options={options} />
