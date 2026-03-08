@@ -16,6 +16,12 @@ export const userService = {
 			};
 		}
 
+		if (filters.userId) {
+			where.id = {
+				equals: filters.userId,
+			};
+		}
+
 		const finalWhere = Object.keys(where).length ? where : undefined;
 
 		const total = await userRepository.count(finalWhere);

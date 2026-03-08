@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -15,17 +18,21 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { userUpdateSchema } from "@/schemas/user-create-schema";
 import { UserModel } from "@/models/user-model";
+import { useRole } from "@/hooks/use-role";
 
 interface Props {
 	userSelected: UserModel;
 }
 export function FormUpdateUser({ userSelected }: Props) {
+	const query = useRole();
+
+	const roles = query.data ?? [];
+	const isLoading = query.isLoading;
+	const error = query.error;
+
 	const form = useForm<z.infer<typeof userUpdateSchema>>({
 		resolver: zodResolver(userUpdateSchema),
 		defaultValues: {
@@ -41,7 +48,10 @@ export function FormUpdateUser({ userSelected }: Props) {
 	return (
 		<div className="flex flex-col justify-center items-center h-full">
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className="space-y-8 w-full gap-x-4"
+				>
 					<FormField
 						control={form.control}
 						name="name"
@@ -59,27 +69,42 @@ export function FormUpdateUser({ userSelected }: Props) {
 						control={form.control}
 						name="roleId"
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Rol</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder="Select a role" />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectItem value="1">Admin</SelectItem>
-										<SelectItem value="2">User</SelectItem>
-									</SelectContent>
-								</Select>
+							<FormItem className="flex flex-col justify-center">
+								<FormLabel>Role</FormLabel>
+
+								{isLoading ? (
+									<div className="p-2 text-center text-sm text-gray-500">
+										Cargando...
+									</div>
+								) : error ? (
+									<div className="p-2 text-center text-sm text-red-500">
+										Ocurrió un error al cargar los roles
+									</div>
+								) : (
+									<Select value={field.value} onValueChange={field.onChange}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Seleccione el concepto" />
+											</SelectTrigger>
+										</FormControl>
+
+										<SelectContent>
+											{roles.map((role) => (
+												<SelectItem key={role.id} value={String(role.id)}>
+													{role.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								)}
+
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-					<Button type="submit">Submit</Button>
+					<div className="col-span-2 flex justify-center">
+						<Button type="submit">Actualizar</Button>
+					</div>
 				</form>
 			</Form>
 		</div>

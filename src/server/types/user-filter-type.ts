@@ -2,6 +2,7 @@ export interface UserFilters {
 	name?: string;
 	page?: number;
 	perPage?: number;
+	userId?: string;
 }
 
 export interface UserMeta {

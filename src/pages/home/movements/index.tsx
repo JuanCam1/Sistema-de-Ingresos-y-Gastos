@@ -6,7 +6,10 @@ import { DialogMovement } from "@/components/movements/dialog-movement";
 import { CardList } from "@/components/shared/cards-list";
 
 export default function MovementsPage() {
-	const query = useUserList();
+	const query = useUserList({
+		roleId: 2,
+		userId: undefined,
+	});
 	const [userSelected, setUserSelected] = useState<UserModel | null>(null);
 	const [showModel, setShowModel] = useState(false);
 
