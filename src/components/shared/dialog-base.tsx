@@ -25,7 +25,7 @@ export default function DialogBase({
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
 				</DialogHeader>
-				<DialogDescription>{children}</DialogDescription>
+				{children}
 			</DialogContent>
 		</Dialog>
 	);

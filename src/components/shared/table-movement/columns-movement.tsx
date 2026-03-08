@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeaderMovement } from "./data-table-column-header-movement";
 import { MovementModel } from "@/models/movement-model";
-import { formatDate } from "@/lib/format-date";
+import { formatDate } from "@/utils/format-date";
 
 export const columnsMovement: ColumnDef<MovementModel>[] = [
 	{
