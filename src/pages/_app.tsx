@@ -1,16 +1,14 @@
-import type { AppProps } from "next/app";
-import { NextPage } from "next";
 import { ReactElement, ReactNode, useState } from "react";
-
-import "@/styles/globals.css";
-
-import { ThemeProvider } from "@/context/theme-provider";
+import { NextPage } from "next";
+import type { AppProps } from "next/app";
+import { Roboto, Encode_Sans } from "next/font/google";
 import {
 	HydrationBoundary,
 	QueryClient,
 	QueryClientProvider,
 } from "@tanstack/react-query";
-import HomeLayout from "@/layouts/home-layout";
+import { ThemeProvider } from "@/context/theme-provider";
+import "@/styles/globals.css";
 
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -20,11 +18,17 @@ type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout;
 };
 
-export default function App({
-	Component,
-	pageProps,
-	router,
-}: AppPropsWithLayout) {
+const roboto = Roboto({
+	subsets: ["latin"],
+	variable: "--font-roboto",
+});
+
+const encodeSans = Encode_Sans({
+	subsets: ["latin"],
+	variable: "--font-encode-sans",
+});
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const [queryClient] = useState(() => new QueryClient());
 	const getLayout = Component.getLayout ?? ((page) => page);
 	return (
@@ -36,7 +40,11 @@ export default function App({
 					enableSystem
 					disableTransitionOnChange
 				>
-					{getLayout(<Component {...pageProps} />)}
+					<div
+						className={`${roboto.variable} ${encodeSans.variable} antialiased`}
+					>
+						{getLayout(<Component {...pageProps} />)}
+					</div>
 				</ThemeProvider>
 			</HydrationBoundary>
 		</QueryClientProvider>

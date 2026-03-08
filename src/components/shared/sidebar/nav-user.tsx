@@ -1,11 +1,7 @@
 "use client";
-import { Separator } from "@/components/ui/separator";
-import {
-	SidebarMenu,
-	SidebarMenuButton,
-	SidebarMenuItem,
-} from "@/components/ui/sidebar";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
+import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 
 export function NavUser() {
 	return (
@@ -14,7 +10,7 @@ export function NavUser() {
 			<SidebarMenuItem>
 				<Link
 					href="/"
-					className="text-sm flex items-center gap-3 text-white p-2 rounded-sm hover:bg-accent"
+					className="text-md flex items-center gap-3 text-white p-2 rounded-sm hover:bg-blue-700 font-roboto"
 				>
 					Cerrar Sesión
 				</Link>

@@ -15,7 +15,7 @@ export function AvatarSidebar() {
 					/>
 					<AvatarFallback>CN</AvatarFallback>
 				</Avatar>
-				<span className="text-md text-white dark:text-gray-300">
+				<span className="text-md text-white dark:text-gray-300 font-roboto">
 					Juan Camilo Rojas
 				</span>
 				<Separator />

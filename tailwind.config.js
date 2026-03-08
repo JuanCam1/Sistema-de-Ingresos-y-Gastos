@@ -11,6 +11,10 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			fontFamily: {
+				roboto: ["var(--font-roboto)"],
+				encodeSans: ["var(--font-encode-sans)"],
+			},
 			borderRadius: {
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",

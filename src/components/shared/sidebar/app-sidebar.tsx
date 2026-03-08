@@ -1,5 +1,6 @@
 "use client";
 
+import { ComponentProps } from "react";
 import {
 	Sidebar,
 	SidebarContent,
@@ -10,7 +11,6 @@ import {
 import { AvatarSidebar } from "@/components/shared/sidebar/avatar-sidebar";
 import { NavPaths } from "./nav-paths";
 import { NavUser } from "./nav-user";
-import { ComponentProps } from "react";
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	return (

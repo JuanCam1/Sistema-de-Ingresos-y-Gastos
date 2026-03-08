@@ -20,7 +20,7 @@ export function NavPaths() {
 					return (
 						<SidebarMenuItem key={item.name} className="mx-3">
 							<Link
-								className={`text-sm flex items-center gap-3 text-white p-2 rounded-sm hover:bg-blue-700
+								className={`font-roboto text-md flex items-center gap-3 text-white p-2 rounded-sm hover:bg-blue-700
 									${isActive ? "bg-blue-700" : null}`}
 								href={item.url}
 							>
