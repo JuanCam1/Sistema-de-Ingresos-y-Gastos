@@ -56,7 +56,7 @@ model Session {
 }
 
 model Movement {
-  id    Int      @id @default(autoincrement())
+  id    String   @id @default(cuid())
   monto Decimal
   fecha DateTime
 

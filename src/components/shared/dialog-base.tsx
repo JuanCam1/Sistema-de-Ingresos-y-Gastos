@@ -8,13 +8,13 @@ import {
 import { ReactNode } from "react";
 
 interface Props {
-	name: string;
+	title: string;
 	showModel: boolean;
 	handleCloseModel: () => void;
 	children: ReactNode;
 }
 export default function DialogBase({
-	name,
+	title,
 	children,
 	showModel,
 	handleCloseModel,
@@ -23,9 +23,9 @@ export default function DialogBase({
 		<Dialog open={showModel} onOpenChange={handleCloseModel}>
 			<DialogContent className="w-[1000px]">
 				<DialogHeader>
-					<DialogTitle>Movimientos de {name}</DialogTitle>
-					<DialogDescription>{children}</DialogDescription>
+					<DialogTitle>{title}</DialogTitle>
 				</DialogHeader>
+				<DialogDescription>{children}</DialogDescription>
 			</DialogContent>
 		</Dialog>
 	);

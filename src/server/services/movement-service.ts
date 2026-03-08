@@ -25,20 +25,37 @@ export const movementService = {
 
 		const total = await movementRepository.count(finalWhere);
 
+		if (page === 0 && perPage === 0) {
+			const users = await movementRepository.getmovements(finalWhere);
+
+			return {
+				data: users,
+				meta: {
+					total,
+					page: 0,
+					perPage: total,
+					totalPages: 1,
+				},
+			};
+		}
+
+		const validPage = Math.max(1, page);
+		const validPerPage = Math.max(1, perPage);
+
 		const movements = await movementRepository.getmovements(
 			finalWhere,
-			page,
-			perPage,
+			validPage,
+			validPerPage,
 		);
 
-		const totalPages = Math.max(1, Math.ceil(total / perPage));
+		const totalPages = Math.max(1, Math.ceil(total / validPerPage));
 
 		return {
 			data: movements,
 			meta: {
 				total,
-				page,
-				perPage,
+				page: validPage,
+				perPage: validPerPage,
 				totalPages,
 			},
 		};

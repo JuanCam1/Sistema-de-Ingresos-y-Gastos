@@ -27,19 +27,17 @@ export type AggregateMovement = {
 }
 
 export type MovementAvgAggregateOutputType = {
-  id: number | null
   monto: runtime.Decimal | null
   typeId: number | null
 }
 
 export type MovementSumAggregateOutputType = {
-  id: number | null
   monto: runtime.Decimal | null
   typeId: number | null
 }
 
 export type MovementMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   monto: runtime.Decimal | null
   fecha: Date | null
   typeId: number | null
@@ -49,7 +47,7 @@ export type MovementMinAggregateOutputType = {
 }
 
 export type MovementMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   monto: runtime.Decimal | null
   fecha: Date | null
   typeId: number | null
@@ -71,13 +69,11 @@ export type MovementCountAggregateOutputType = {
 
 
 export type MovementAvgAggregateInputType = {
-  id?: true
   monto?: true
   typeId?: true
 }
 
 export type MovementSumAggregateInputType = {
-  id?: true
   monto?: true
   typeId?: true
 }
@@ -200,7 +196,7 @@ export type MovementGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 export type MovementGroupByOutputType = {
-  id: number
+  id: string
   monto: runtime.Decimal
   fecha: Date
   typeId: number
@@ -233,7 +229,7 @@ export type MovementWhereInput = {
   AND?: Prisma.MovementWhereInput | Prisma.MovementWhereInput[]
   OR?: Prisma.MovementWhereInput[]
   NOT?: Prisma.MovementWhereInput | Prisma.MovementWhereInput[]
-  id?: Prisma.IntFilter<"Movement"> | number
+  id?: Prisma.StringFilter<"Movement"> | string
   monto?: Prisma.DecimalFilter<"Movement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFilter<"Movement"> | Date | string
   typeId?: Prisma.IntFilter<"Movement"> | number
@@ -257,7 +253,7 @@ export type MovementOrderByWithRelationInput = {
 }
 
 export type MovementWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.MovementWhereInput | Prisma.MovementWhereInput[]
   OR?: Prisma.MovementWhereInput[]
   NOT?: Prisma.MovementWhereInput | Prisma.MovementWhereInput[]
@@ -290,7 +286,7 @@ export type MovementScalarWhereWithAggregatesInput = {
   AND?: Prisma.MovementScalarWhereWithAggregatesInput | Prisma.MovementScalarWhereWithAggregatesInput[]
   OR?: Prisma.MovementScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MovementScalarWhereWithAggregatesInput | Prisma.MovementScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Movement"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Movement"> | string
   monto?: Prisma.DecimalWithAggregatesFilter<"Movement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeWithAggregatesFilter<"Movement"> | Date | string
   typeId?: Prisma.IntWithAggregatesFilter<"Movement"> | number
@@ -300,6 +296,7 @@ export type MovementScalarWhereWithAggregatesInput = {
 }
 
 export type MovementCreateInput = {
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   createdAt?: Date | string
@@ -309,7 +306,7 @@ export type MovementCreateInput = {
 }
 
 export type MovementUncheckedCreateInput = {
-  id?: number
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   typeId: number
@@ -319,6 +316,7 @@ export type MovementUncheckedCreateInput = {
 }
 
 export type MovementUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -328,7 +326,7 @@ export type MovementUpdateInput = {
 }
 
 export type MovementUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   typeId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -338,7 +336,7 @@ export type MovementUncheckedUpdateInput = {
 }
 
 export type MovementCreateManyInput = {
-  id?: number
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   typeId: number
@@ -348,6 +346,7 @@ export type MovementCreateManyInput = {
 }
 
 export type MovementUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -355,7 +354,7 @@ export type MovementUpdateManyMutationInput = {
 }
 
 export type MovementUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   typeId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -385,7 +384,6 @@ export type MovementCountOrderByAggregateInput = {
 }
 
 export type MovementAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   monto?: Prisma.SortOrder
   typeId?: Prisma.SortOrder
 }
@@ -411,7 +409,6 @@ export type MovementMinOrderByAggregateInput = {
 }
 
 export type MovementSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   monto?: Prisma.SortOrder
   typeId?: Prisma.SortOrder
 }
@@ -509,6 +506,7 @@ export type MovementUncheckedUpdateManyWithoutTypeNestedInput = {
 }
 
 export type MovementCreateWithoutUserInput = {
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   createdAt?: Date | string
@@ -517,7 +515,7 @@ export type MovementCreateWithoutUserInput = {
 }
 
 export type MovementUncheckedCreateWithoutUserInput = {
-  id?: number
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   typeId: number
@@ -554,7 +552,7 @@ export type MovementScalarWhereInput = {
   AND?: Prisma.MovementScalarWhereInput | Prisma.MovementScalarWhereInput[]
   OR?: Prisma.MovementScalarWhereInput[]
   NOT?: Prisma.MovementScalarWhereInput | Prisma.MovementScalarWhereInput[]
-  id?: Prisma.IntFilter<"Movement"> | number
+  id?: Prisma.StringFilter<"Movement"> | string
   monto?: Prisma.DecimalFilter<"Movement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFilter<"Movement"> | Date | string
   typeId?: Prisma.IntFilter<"Movement"> | number
@@ -564,6 +562,7 @@ export type MovementScalarWhereInput = {
 }
 
 export type MovementCreateWithoutTypeInput = {
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   createdAt?: Date | string
@@ -572,7 +571,7 @@ export type MovementCreateWithoutTypeInput = {
 }
 
 export type MovementUncheckedCreateWithoutTypeInput = {
-  id?: number
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   userId: string
@@ -606,7 +605,7 @@ export type MovementUpdateManyWithWhereWithoutTypeInput = {
 }
 
 export type MovementCreateManyUserInput = {
-  id?: number
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   typeId: number
@@ -615,6 +614,7 @@ export type MovementCreateManyUserInput = {
 }
 
 export type MovementUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -623,7 +623,7 @@ export type MovementUpdateWithoutUserInput = {
 }
 
 export type MovementUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   typeId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -632,7 +632,7 @@ export type MovementUncheckedUpdateWithoutUserInput = {
 }
 
 export type MovementUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   typeId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -641,7 +641,7 @@ export type MovementUncheckedUpdateManyWithoutUserInput = {
 }
 
 export type MovementCreateManyTypeInput = {
-  id?: number
+  id?: string
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha: Date | string
   userId: string
@@ -650,6 +650,7 @@ export type MovementCreateManyTypeInput = {
 }
 
 export type MovementUpdateWithoutTypeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -658,7 +659,7 @@ export type MovementUpdateWithoutTypeInput = {
 }
 
 export type MovementUncheckedUpdateWithoutTypeInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -667,7 +668,7 @@ export type MovementUncheckedUpdateWithoutTypeInput = {
 }
 
 export type MovementUncheckedUpdateManyWithoutTypeInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   fecha?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -744,7 +745,7 @@ export type $MovementPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     monto: runtime.Decimal
     fecha: Date
     typeId: number
@@ -1176,7 +1177,7 @@ export interface Prisma__MovementClient<T, Null = never, ExtArgs extends runtime
  * Fields of the Movement model
  */
 export interface MovementFieldRefs {
-  readonly id: Prisma.FieldRef<"Movement", 'Int'>
+  readonly id: Prisma.FieldRef<"Movement", 'String'>
   readonly monto: Prisma.FieldRef<"Movement", 'Decimal'>
   readonly fecha: Prisma.FieldRef<"Movement", 'DateTime'>
   readonly typeId: Prisma.FieldRef<"Movement", 'Int'>

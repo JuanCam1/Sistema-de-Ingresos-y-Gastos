@@ -1,14 +1,13 @@
-import DialogBase from "@/components/shared/dialog-base";
-import { columnsMovement } from "@/components/shared/table-movement/columns-movement";
-import { DataTableMovement } from "@/components/shared/table-movement/data-table-movement";
 import { UserModel } from "@/models/user-model";
+import DialogBase from "@/components/shared/dialog-base";
+import ReportChart from "./report-chart";
 
 interface Props {
 	userSelected: UserModel;
 	showModel: boolean;
 	handleCloseModel: () => void;
 }
-export default function DialogMovement({
+export default function DialogReport({
 	userSelected,
 	showModel,
 	handleCloseModel,
@@ -17,12 +16,12 @@ export default function DialogMovement({
 
 	return (
 		<DialogBase
-			title={`Movimientos de ${userSelected.name}`}
+			title={`Reporte de ${userSelected.name}`}
 			showModel={showModel}
 			handleCloseModel={handleCloseModel}
 		>
 			<div className="flex flex-col justify-center items-center h-full">
-				<DataTableMovement columns={columnsMovement} userId={userSelected.id} />
+				<ReportChart userSelected={userSelected} />
 			</div>
 		</DialogBase>
 	);
