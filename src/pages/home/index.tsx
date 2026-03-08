@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import HomeLayout from "@/layouts/home-layout";
+import { HomeLayout } from "@/layouts/home-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { pathsSidebar } from "@/consts/paths-sidebar";
 import { ReactElement } from "react";

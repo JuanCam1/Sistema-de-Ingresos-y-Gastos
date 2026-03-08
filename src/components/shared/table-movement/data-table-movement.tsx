@@ -22,6 +22,10 @@ import { Input } from "@/components/ui/input";
 import { Loading } from "../loading";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Pagination } from "../pagination";
+import { Button } from "@/components/ui/button";
+import { SquarePlus } from "lucide-react";
+import { useState } from "react";
+import { DialogCreateMovement } from "@/components/movements/dialog-create-movement";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -32,6 +36,16 @@ export function DataTableMovement<TData, TValue>({
 	columns,
 	userId,
 }: DataTableProps<TData, TValue>) {
+	const [open, setOpen] = useState(false);
+
+	const handleCreate = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 	const {
 		movements,
 		meta,
@@ -78,13 +92,21 @@ export function DataTableMovement<TData, TValue>({
 		<div className="w-full max-w-[1000px]">
 			<div className="flex items-center justify-between py-4">
 				<Input
-					placeholder="Buscar por movimiento"
+					className="max-w-64 h-9"
+					placeholder="Buscar por concepto"
 					value={(table.getColumn("type")?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
 						table.getColumn("type")?.setFilterValue(event.target.value)
 					}
-					className="max-w-sm ml-2"
 				/>
+				<Button
+					variant="outline"
+					size="lg"
+					onClick={handleCreate}
+					className="group size-9 flex items-center justify-center	rounded-sm cursor-pointer bg-blue-500 dark:bg-blue-500 transition-colors duration-200 hover:bg-blue-600 dark:hover:bg-teal-800 border-none p-0"
+				>
+					<SquarePlus className="text-white size-5 transition-transform duration-300 ease-out" />
+				</Button>
 			</div>
 			<div className="overflow-hidden rounded-md border border-gray-200 min-h-[425px]">
 				<Table className="w-full">
@@ -175,6 +197,10 @@ export function DataTableMovement<TData, TValue>({
 			/>
 
 			{error && <div className="text-red-600">Error cargando datos</div>}
+
+			{open && (
+				<DialogCreateMovement showModel={open} handleCloseModel={handleClose} />
+			)}
 		</div>
 	);
 }

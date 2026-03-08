@@ -1,14 +1,22 @@
 import { ReactNode } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "../ui/dialog";
 
 interface Props {
 	title: string;
+	description: string;
 	showModel: boolean;
 	handleCloseModel: () => void;
 	children: ReactNode;
 }
 export function DialogBase({
 	title,
+	description,
 	children,
 	showModel,
 	handleCloseModel,
@@ -18,7 +26,9 @@ export function DialogBase({
 			<DialogContent className="w-[1000px]">
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
+					<DialogDescription>{description}</DialogDescription>
 				</DialogHeader>
+
 				{children}
 			</DialogContent>
 		</Dialog>

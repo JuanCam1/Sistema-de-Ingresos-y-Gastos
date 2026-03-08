@@ -17,6 +17,7 @@ export function DialogReport({
 	return (
 		<DialogBase
 			title={`Reporte de ${userSelected.name}`}
+			description="Visualiza el reporte de los movimientos, el total y descargar archivo csv"
 			showModel={showModel}
 			handleCloseModel={handleCloseModel}
 		>

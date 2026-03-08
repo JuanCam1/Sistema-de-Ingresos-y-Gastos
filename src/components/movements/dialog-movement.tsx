@@ -18,6 +18,7 @@ export function DialogMovement({
 	return (
 		<DialogBase
 			title={`Movimientos de ${userSelected.name}`}
+			description="Aquí visualizaras todos los movimientos del usuario"
 			showModel={showModel}
 			handleCloseModel={handleCloseModel}
 		>

@@ -16,6 +16,7 @@ export function DialogUpdateUser({
 	return (
 		<DialogBase
 			title={`Actualizar ${userSelected.name}`}
+			description="Cambia los datos del usuario que necesites actualizar."
 			showModel={showModel}
 			handleCloseModel={handleCloseModel}
 		>
