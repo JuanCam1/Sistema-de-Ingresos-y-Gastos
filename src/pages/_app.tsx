@@ -2,6 +2,7 @@ import { ReactElement, ReactNode, useState } from "react";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { Roboto, Encode_Sans } from "next/font/google";
+import { Toaster } from "sonner";
 import {
 	HydrationBoundary,
 	QueryClient,
@@ -45,6 +46,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 					>
 						{getLayout(<Component {...pageProps} />)}
 					</div>
+					<Toaster position="top-right" richColors duration={2000} />
 				</ThemeProvider>
 			</HydrationBoundary>
 		</QueryClientProvider>

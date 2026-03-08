@@ -1,4 +1,5 @@
 import { fetchCreateMovement } from "@/fetchers/movement-fetcher";
+import { notification } from "@/lib/notification";
 import { CreateMovementModel } from "@/models/movement-model";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -12,15 +13,15 @@ export function useCreateMovement({ handleClose }: Props) {
 		mutationFn: async (data: CreateMovementModel) => {
 			return fetchCreateMovement(data);
 		},
-		onSuccess: (data) => {
+		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["movements"] });
-			handleClose();
+			notification("Movimiento creado satisfactoriamente", "success");
+			setTimeout(() => {
+				handleClose();
+			}, 3000);
 		},
-		onError: (error: any) => {
-			console.error(
-				"Error al crear movimiento:",
-				error.response?.data || error.message,
-			);
+		onError: () => {
+			notification("Error al crear un nuevo movimiento", "error");
 		},
 	});
 }
