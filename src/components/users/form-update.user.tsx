@@ -22,11 +22,13 @@ import { Input } from "@/components/ui/input";
 import { userUpdateSchema } from "@/schemas/user-create-schema";
 import { UserModel } from "@/models/user-model";
 import { useRole } from "@/hooks/use-role";
+import { useUpdateUser } from "@/hooks/use-update-user";
 
 interface Props {
 	userSelected: UserModel;
+	handleClose: () => void;
 }
-export function FormUpdateUser({ userSelected }: Props) {
+export function FormUpdateUser({ userSelected, handleClose }: Props) {
 	const query = useRole();
 
 	const roles = query.data ?? [];
@@ -41,8 +43,14 @@ export function FormUpdateUser({ userSelected }: Props) {
 		},
 	});
 
+	const updateUser = useUpdateUser({ handleClose });
 	const onSubmit = (values: z.infer<typeof userUpdateSchema>) => {
-		console.log(values);
+		const data = {
+			name: values.name,
+			roleId: values.roleId,
+			id: userSelected.id,
+		};
+		updateUser.mutate(data);
 	};
 
 	return (

@@ -23,9 +23,10 @@ import { Loading } from "../loading";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Pagination } from "../pagination";
 import { Button } from "@/components/ui/button";
-import { SquarePlus } from "lucide-react";
+import { AlertCircleIcon, SquarePlus } from "lucide-react";
 import { useState } from "react";
 import { DialogCreateMovement } from "@/components/movements/dialog-create-movement";
+import { useSession } from "@/lib/auth-client";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -37,6 +38,7 @@ export function DataTableMovement<TData, TValue>({
 	userId,
 }: DataTableProps<TData, TValue>) {
 	const [open, setOpen] = useState(false);
+	const { data: session } = useSession();
 
 	const handleCreate = () => {
 		setOpen(true);
@@ -86,7 +88,6 @@ export function DataTableMovement<TData, TValue>({
 	const rows = table.getRowModel().rows;
 	const pageSize = pagination.pageSize;
 	const emptyRows = pageSize - rows.length;
-	console.log(emptyRows);
 
 	return (
 		<div className="w-full max-w-[1000px]">
@@ -99,14 +100,16 @@ export function DataTableMovement<TData, TValue>({
 						table.getColumn("type")?.setFilterValue(event.target.value)
 					}
 				/>
-				<Button
-					variant="outline"
-					size="lg"
-					onClick={handleCreate}
-					className="group size-9 flex items-center justify-center	rounded-sm cursor-pointer bg-blue-500 dark:bg-blue-500 transition-colors duration-200 hover:bg-blue-600 dark:hover:bg-teal-800 border-none p-0"
-				>
-					<SquarePlus className="text-white size-5 transition-transform duration-300 ease-out" />
-				</Button>
+				{session?.user?.roleName === "Administrador" && (
+					<Button
+						variant="outline"
+						size="lg"
+						onClick={handleCreate}
+						className="group size-9 flex items-center justify-center	rounded-sm cursor-pointer bg-blue-500 dark:bg-blue-500 transition-colors duration-200 hover:bg-blue-600 dark:hover:bg-teal-800 border-none p-0"
+					>
+						<SquarePlus className="text-white size-5 transition-transform duration-300 ease-out" />
+					</Button>
+				)}
 			</div>
 			<div className="overflow-hidden rounded-md border border-gray-200 min-h-[425px]">
 				<Table className="w-full">
@@ -196,7 +199,16 @@ export function DataTableMovement<TData, TValue>({
 				getCanNextPage={() => table.getCanNextPage()}
 			/>
 
-			{error && <div className="text-red-600">Error cargando datos</div>}
+			{error && (
+				<Alert variant="destructive" className="max-w-md">
+					<AlertCircleIcon />
+					<AlertTitle>Error</AlertTitle>
+					<AlertDescription>
+						Ha ocurrido un error al cargar los movimientos. Por favor, inténtalo
+						de nuevo más tarde.
+					</AlertDescription>
+				</Alert>
+			)}
 
 			{open && (
 				<DialogCreateMovement

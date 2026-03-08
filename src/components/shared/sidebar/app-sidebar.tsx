@@ -12,14 +12,20 @@ import { AvatarSidebar } from "@/components/shared/sidebar/avatar-sidebar";
 import { NavPaths } from "./nav-paths";
 import { NavUser } from "./nav-user";
 
-export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
+interface Props extends ComponentProps<typeof Sidebar> {
+	name: string;
+	image: string;
+	role: string;
+	roleId: string;
+}
+export function AppSidebar({ name, image, role, roleId, ...props }: Props) {
 	return (
 		<Sidebar {...props}>
 			<SidebarHeader>
-				<AvatarSidebar />
+				<AvatarSidebar name={name} image={image} role={role} roleId={roleId} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavPaths />
+				<NavPaths role={role} />
 			</SidebarContent>
 			<SidebarFooter>
 				<NavUser />

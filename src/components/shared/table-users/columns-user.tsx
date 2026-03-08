@@ -23,6 +23,7 @@ export const columnsUser = (
 	{
 		accessorKey: "telephone",
 		header: "Teléfono",
+		cell: ({ row }) => row.original.telephone || "Sin Telefono",
 	},
 	{
 		id: "actions",

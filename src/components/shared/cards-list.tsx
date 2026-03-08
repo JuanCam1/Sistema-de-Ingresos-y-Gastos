@@ -1,5 +1,5 @@
 import { UserModel } from "@/models/user-model";
-import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react";
+import { AlertCircleIcon } from "lucide-react";
 import { Loading } from "./loading";
 import { Card, CardContent } from "../ui/card";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
@@ -15,7 +15,9 @@ export function CardList({ users, isLoading, error, action }: Props) {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-5 gap-8 w-full max-w-[1000px] mt-6">
 			{isLoading ? (
-				<Loading />
+				<div className="w-full flex justify-center items-center col-span-5 mt-16">
+					<Loading />
+				</div>
 			) : users.length ? (
 				users.map((user) => (
 					<Card
@@ -42,13 +44,16 @@ export function CardList({ users, isLoading, error, action }: Props) {
 					</Card>
 				))
 			) : (
-				<Alert className="max-w-md">
-					<CheckCircle2Icon />
-					<AlertTitle>No se encontraron usuarios</AlertTitle>
-					<AlertDescription>
-						No hay usuarios que coincidan con los criterios de búsqueda.
-					</AlertDescription>
-				</Alert>
+				<div className="w-full flex justify-center items-center col-span-5 mt-16">
+					<Alert className="max-w-md py-6">
+						<AlertTitle className="text-center text-md">
+							No se encontraron usuarios
+						</AlertTitle>
+						<AlertDescription>
+							No hay usuarios que coincidan con los criterios de búsqueda.
+						</AlertDescription>
+					</Alert>
+				</div>
 			)}
 
 			{error && (

@@ -22,7 +22,10 @@ export function DialogUpdateUser({
 			handleCloseModel={handleCloseModel}
 			width="w-[500px]"
 		>
-			<FormUpdateUser userSelected={userSelected} />
+			<FormUpdateUser
+				userSelected={userSelected}
+				handleClose={handleCloseModel}
+			/>
 		</DialogBase>
 	);
 }

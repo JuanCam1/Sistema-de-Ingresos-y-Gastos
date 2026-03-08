@@ -9,12 +9,23 @@ import {
 } from "@/components/ui/sidebar";
 import { pathsSidebar } from "@/consts/paths-sidebar";
 
-export function NavPaths() {
+interface Props {
+	role: string;
+}
+export function NavPaths({ role }: Props) {
 	const router = useRouter();
+
+	const filteredUser = pathsSidebar.filter((path) => {
+		if (role === "Usuario") {
+			return path.name === "Movimientos";
+		}
+		return true;
+	});
+
 	return (
 		<SidebarGroup className="group-data-[collapsible=icon]:hidden mt-6">
 			<SidebarMenu>
-				{pathsSidebar.map((item) => {
+				{filteredUser.map((item) => {
 					const isActive = router.pathname === item.url;
 
 					return (

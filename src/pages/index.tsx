@@ -1,13 +1,25 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardFooter } from "@/components/ui/card";
 import { GitHubIcon } from "@/components/icons/github-icon";
+import { useSession, signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
+	const { data: session, isPending } = useSession();
 	const router = useRouter();
 
-	const handleLogin = () => {
-		router.push("/home");
+	useEffect(() => {
+		if (session && !isPending) {
+			router.replace("/home");
+		}
+	}, [session, isPending, router]);
+
+	const handleGitHubLogin = async () => {
+		await signIn.social({
+			provider: "github",
+			callbackURL: "/home",
+		});
 	};
 
 	return (
@@ -17,7 +29,7 @@ export default function LoginPage() {
 					Sistema de Gestión de Ingresos y Gastos
 				</CardHeader>
 				<Button
-					onClick={handleLogin}
+					onClick={handleGitHubLogin}
 					className="flex w-full items-center justify-center gap-2 rounded-md px-4 py-6 text-md font-medium transition-opacity cursor-pointer text-white bg-blue-500 hover:bg-blue-600 "
 				>
 					<GitHubIcon className="size-7 text-white" />

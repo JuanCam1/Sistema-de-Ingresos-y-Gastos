@@ -136,7 +136,7 @@ export function DataTableUser<TData, TValue>({
 								))}
 
 								{Array.from({ length: emptyRows }).map((_, i) => (
-									<TableRow key={`empty-${i}`} className="h-13.25">
+									<TableRow key={`empty-${i}`} className="h-[50px]">
 										<TableCell colSpan={columns.length}></TableCell>
 									</TableRow>
 								))}

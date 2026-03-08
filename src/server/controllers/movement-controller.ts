@@ -22,8 +22,6 @@ export const movementController = {
 		const body: CreateMovementModel = req.body;
 		const { userId, typeMovement, amount, fecha } = body;
 
-		console.log({ userId, typeMovement, amount, fecha });
-
 		if (!userId || !typeMovement || !amount || !fecha) {
 			return res.status(400).json({ message: "Missing required fields" });
 		}

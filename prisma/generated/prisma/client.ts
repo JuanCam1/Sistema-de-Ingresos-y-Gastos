@@ -72,17 +72,7 @@ export type Role = Prisma.RoleModel
  */
 export type typeMovement = Prisma.typeMovementModel
 /**
- * Model state
+ * Model Verification
  * 
  */
-export type state = Prisma.stateModel
-/**
- * Model Permission
- * 
- */
-export type Permission = Prisma.PermissionModel
-/**
- * Model RolePermission
- * 
- */
-export type RolePermission = Prisma.RolePermissionModel
+export type Verification = Prisma.VerificationModel

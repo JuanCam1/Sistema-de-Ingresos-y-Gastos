@@ -11,8 +11,6 @@ export function DialogCreateMovement({
 	showModel,
 	handleCloseModel,
 }: Props) {
-	console.log(userId);
-
 	return (
 		<DialogBase
 			title="Crear nuevo movimiento"

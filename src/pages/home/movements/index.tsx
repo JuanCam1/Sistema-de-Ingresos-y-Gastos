@@ -1,15 +1,19 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useUserList } from "@/hooks/use-user-list";
 import { HomeLayout } from "@/layouts/home-layout";
 import { UserModel } from "@/models/user-model";
 import { DialogMovement } from "@/components/movements/dialog-movement";
 import { CardList } from "@/components/shared/cards-list";
+import { useSession } from "@/lib/auth-client";
 
 export default function MovementsPage() {
+	const { data: session } = useSession();
+
 	const query = useUserList({
-		roleId: 2,
-		userId: undefined,
+		roleId: session?.user?.roleId,
+		userId: session?.user?.id,
 	});
+
 	const [userSelected, setUserSelected] = useState<UserModel | null>(null);
 	const [showModel, setShowModel] = useState(false);
 

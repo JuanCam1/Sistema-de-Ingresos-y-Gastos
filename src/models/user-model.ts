@@ -10,3 +10,9 @@ export interface UserModel {
 	role: RoleModel;
 	state: StateModel;
 }
+
+export interface UserUpdateModel {
+	id: string;
+	name: string;
+	roleId: string;
+}

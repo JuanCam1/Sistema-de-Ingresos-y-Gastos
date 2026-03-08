@@ -4,6 +4,7 @@ import { DataTableUser } from "@/components/shared/table-users/data-table-user";
 import { DialogUpdateUser } from "@/components/users/dialog-update-user";
 import { HomeLayout } from "@/layouts/home-layout";
 import { UserModel } from "@/models/user-model";
+import { AdminGuard } from "@/guards/admin-guard";
 
 export default function UserPage() {
 	const [selectedUser, setSelectedUser] = useState<UserModel | null>(null);
@@ -21,20 +22,22 @@ export default function UserPage() {
 
 	const columns = columnsUser(handleEdit);
 	return (
-		<div className="flex flex-col justify-center items-center h-full">
-			<h2 className="text-accent text-5xl font-bold text-center text-blue-800 dark:text-white">
-				Usuarios
-			</h2>
-			<DataTableUser columns={columns} />
+		<AdminGuard>
+			<div className="flex flex-col justify-center items-center h-full">
+				<h2 className="text-accent text-5xl font-bold text-center text-blue-800 dark:text-white">
+					Usuarios
+				</h2>
+				<DataTableUser columns={columns} />
 
-			{selectedUser && open && (
-				<DialogUpdateUser
-					userSelected={selectedUser}
-					showModel={open}
-					handleCloseModel={handleClose}
-				/>
-			)}
-		</div>
+				{selectedUser && open && (
+					<DialogUpdateUser
+						userSelected={selectedUser}
+						showModel={open}
+						handleCloseModel={handleClose}
+					/>
+				)}
+			</div>
+		</AdminGuard>
 	);
 }
 

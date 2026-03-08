@@ -33,6 +33,7 @@ export function useUsersTable() {
 				page,
 				perPage,
 				name: nameFilter,
+				roleId: 2,
 			}),
 		placeholderData: (prev) => prev,
 	});

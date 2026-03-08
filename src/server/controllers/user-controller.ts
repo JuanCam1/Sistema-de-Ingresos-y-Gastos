@@ -17,13 +17,61 @@ export const userController = {
 			filters.userId = req.query.userId as string;
 		}
 
-		console.log(filters);
-
 		try {
 			const result = await userService.getUsers(filters);
 			res.status(200).json(result);
 		} catch (error) {
-			res.status(500).json({ message: "Error creating movement", error });
+			res.status(500).json({ message: "Error fetching users", error });
+		}
+	},
+
+	async getRoleByIdUser(req: NextApiRequest, res: NextApiResponse) {
+		const userId = req.query.userId as string;
+
+		if (!userId) {
+			res.status(400).json({ message: "Missing userId query parameter" });
+			return;
+		}
+
+		try {
+			const result = await userService.getRoleByIdUser(userId);
+			res.status(200).json(result);
+		} catch (error) {
+			res.status(500).json({ message: "Error fetching user role", error });
+		}
+	},
+
+	async updateUser(req: NextApiRequest, res: NextApiResponse) {
+		const { userId } = req.query;
+		const { name, roleId } = req.body as {
+			name?: string;
+			roleId?: number | string;
+		};
+
+		if (!name || roleId === undefined || roleId === null || roleId === "") {
+			return res.status(400).json({
+				message: "Missing required fields: name and roleId",
+			});
+		}
+
+		if (!userId || Array.isArray(userId)) {
+			return res.status(400).json({ message: "Invalid userId" });
+		}
+
+		const parsedRoleId = Number(roleId);
+		if (Number.isNaN(parsedRoleId)) {
+			return res.status(400).json({ message: "roleId must be a number" });
+		}
+
+		try {
+			const result = await userService.updateUser(userId, {
+				name,
+				roleId: parsedRoleId,
+			});
+
+			return res.status(200).json(result);
+		} catch (error) {
+			return res.status(500).json({ message: "Error updating user", error });
 		}
 	},
 };

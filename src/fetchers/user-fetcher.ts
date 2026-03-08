@@ -1,3 +1,4 @@
+import { UserUpdateModel } from "@/models/user-model";
 import { UserResponse } from "@/models/user-response-model";
 
 interface FetchUsersParams {
@@ -25,5 +26,20 @@ export const fetchUsers = async ({
 
 	const res = await fetch(`/api/user?${params.toString()}`);
 	if (!res.ok) throw new Error("Error fetching users");
+	return res.json();
+};
+
+export const fetchUpdateUser = async (data: UserUpdateModel) => {
+	const body = {
+		name: data.name,
+		roleId: data.roleId,
+	};
+	const res = await fetch(`/api/user/${data.id}`, {
+		method: "PUT",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(body),
+	});
+	console.log(res);
+	if (!res.ok) throw new Error("Error updating user");
 	return res.json();
 };

@@ -1096,6 +1096,7 @@ export type typeMovementCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many typeMovements.
    */
   data: Prisma.typeMovementCreateManyInput | Prisma.typeMovementCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1114,6 +1115,7 @@ export type typeMovementCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * The data used to create many typeMovements.
    */
   data: Prisma.typeMovementCreateManyInput | Prisma.typeMovementCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

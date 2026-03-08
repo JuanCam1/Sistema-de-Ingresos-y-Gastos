@@ -34,7 +34,15 @@ export const userRepository = {
 						name: true,
 					},
 				},
-				state: {
+			},
+		});
+	},
+
+	async getRoleByIdUser(id: string) {
+		return prisma.user.findFirst({
+			where: { id },
+			select: {
+				role: {
 					select: {
 						id: true,
 						name: true,
@@ -44,60 +52,24 @@ export const userRepository = {
 		});
 	},
 
-	// async getUsers(
-	// 	where: Prisma.UserWhereInput | undefined,
-	// 	page: number,
-	// 	perPage: number,
-	// ) {
-	// 	return prisma.user.findMany({
-	// 		where,
-	// 		orderBy: { createdAt: "desc" },
-	// 		skip: (page - 1) * perPage,
-	// 		take: perPage,
-	// 		select: {
-	// 			id: true,
-	// 			name: true,
-	// 			email: true,
-	// 			telephone: true,
-	// 			image: true,
-	// 			role: {
-	// 				select: {
-	// 					id: true,
-	// 					name: true,
-	// 				},
-	// 			},
-	// 			state: {
-	// 				select: {
-	// 					id: true,
-	// 					name: true,
-	// 				},
-	// 			},
-	// 		},
-	// 	});
-	// },
-
-	//   async getUserById(id: string) {
-	//     return prisma.user.findUnique({
-	//       where: { id }
-	//     })
-	//   },
-
-	//   async createUser(data: any) {
-	//     return prisma.user.create({
-	//       data
-	//     })
-	//   },
-
-	//   async updateUser(id: string, data: any) {
-	//     return prisma.user.update({
-	//       where: { id },
-	//       data
-	//     })
-	//   },
-
-	//   async deleteUser(id: string) {
-	//     return prisma.user.delete({
-	//       where: { id }
-	//     })
-	//   }
+	async updateUser(id: string, data: { name: string; roleId: number }) {
+		return prisma.user.update({
+			where: { id },
+			data: {
+				name: data.name,
+				roleId: data.roleId,
+			},
+			select: {
+				id: true,
+				name: true,
+				email: true,
+				role: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+			},
+		});
+	},
 };

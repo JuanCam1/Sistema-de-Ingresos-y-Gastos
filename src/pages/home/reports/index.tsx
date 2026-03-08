@@ -4,9 +4,14 @@ import { CardList } from "@/components/shared/cards-list";
 import { useUserList } from "@/hooks/use-user-list";
 import { HomeLayout } from "@/layouts/home-layout";
 import { UserModel } from "@/models/user-model";
+import { AdminGuard } from "@/guards/admin-guard";
 
 export default function ReportPage() {
-	const query = useUserList();
+	const query = useUserList({
+		roleId: 2,
+		userId: undefined,
+	});
+
 	const [userSelected, setUserSelected] = useState<UserModel | null>(null);
 	const [showModel, setShowModel] = useState(false);
 
@@ -25,7 +30,7 @@ export default function ReportPage() {
 	};
 
 	return (
-		<>
+		<AdminGuard>
 			<div className="w-full h-full flex flex-col items-center px-6 py-10">
 				<h2 className="text-blue-700 text-5xl font-bold text-center mb-16 dark:text-white">
 					Reportes
@@ -45,7 +50,7 @@ export default function ReportPage() {
 					handleCloseModel={handleCloseModel}
 				/>
 			)}
-		</>
+		</AdminGuard>
 	);
 }
 

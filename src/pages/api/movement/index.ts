@@ -1,10 +1,8 @@
+import { AuthenticatedRequest, withMethodRoles } from "@/lib/with-auth";
 import { movementController } from "@/server/controllers/movement-controller";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse,
-) {
+async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 	if (req.method === "GET") {
 		return movementController.getMovements(req, res);
 	}
@@ -15,3 +13,8 @@ export default async function handler(
 
 	res.status(405).end();
 }
+
+export default withMethodRoles(handler, {
+	GET: ["Usuario", "Administrador"],
+	POST: ["Administrador"],
+});
