@@ -17,7 +17,7 @@ export function AvatarSidebar({ image, name, role, roleId }: Props) {
 					<AvatarImage
 						src={image || "/no-user.png"}
 						alt={name}
-						className="grayscale object-cover"
+						className="object-cover"
 					/>
 					<AvatarFallback>
 						{name
