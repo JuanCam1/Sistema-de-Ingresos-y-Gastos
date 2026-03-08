@@ -16,7 +16,7 @@ export function useMovementTable({ userId }: Props) {
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
-		pageSize: 5,
+		pageSize: 10,
 	});
 
 	const page = pagination.pageIndex + 1;

@@ -72,6 +72,7 @@ export function DataTableMovement<TData, TValue>({
 	const rows = table.getRowModel().rows;
 	const pageSize = pagination.pageSize;
 	const emptyRows = pageSize - rows.length;
+	console.log(emptyRows);
 
 	return (
 		<div className="w-full max-w-[1000px]">
@@ -85,7 +86,7 @@ export function DataTableMovement<TData, TValue>({
 					className="max-w-sm ml-2"
 				/>
 			</div>
-			<div className="overflow-hidden rounded-md border border-gray-200 min-h-[480px]">
+			<div className="overflow-hidden rounded-md border border-gray-200 min-h-[425px]">
 				<Table className="w-full">
 					<TableHeader className="bg-primary text-white">
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -113,7 +114,7 @@ export function DataTableMovement<TData, TValue>({
 							<TableRow>
 								<TableCell
 									colSpan={columns.length as number}
-									className="h-[480px] text-center"
+									className="h-[350px] text-center"
 								>
 									<Loading />
 								</TableCell>
@@ -137,7 +138,7 @@ export function DataTableMovement<TData, TValue>({
 								))}
 
 								{Array.from({ length: emptyRows }).map((_, i) => (
-									<TableRow key={`empty-${i}`} className="h-13.25">
+									<TableRow key={`empty-${i}`} className="h-[50px]">
 										<TableCell colSpan={columns.length}></TableCell>
 									</TableRow>
 								))}

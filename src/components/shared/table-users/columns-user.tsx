@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { BanknoteArrowUp, FileChartPie, PencilLine } from "lucide-react";
+import { PencilLine } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeaderUser } from "./data-table-column-header-user";
