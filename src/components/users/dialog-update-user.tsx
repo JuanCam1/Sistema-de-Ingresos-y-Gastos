@@ -1,5 +1,6 @@
 import { UserModel } from "@/models/user-model";
 import { DialogBase } from "@/components/shared/dialog-base";
+import { FormUpdateUser } from "./form-update.user";
 
 interface Props {
 	userSelected: UserModel;
@@ -20,9 +21,7 @@ export function DialogUpdateUser({
 			showModel={showModel}
 			handleCloseModel={handleCloseModel}
 		>
-			<div className="flex flex-col justify-center items-center h-full">
-				update user
-			</div>
+			<FormUpdateUser userSelected={userSelected} />
 		</DialogBase>
 	);
 }

@@ -6,6 +6,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "../ui/dialog";
+import { cn } from "@/lib/utils";
 
 interface Props {
 	title: string;
@@ -13,6 +14,8 @@ interface Props {
 	showModel: boolean;
 	handleCloseModel: () => void;
 	children: ReactNode;
+	width?: string;
+	height?: string;
 }
 export function DialogBase({
 	title,
@@ -20,10 +23,12 @@ export function DialogBase({
 	children,
 	showModel,
 	handleCloseModel,
+	width = "w-[1000px]",
+	height,
 }: Props) {
 	return (
 		<Dialog open={showModel} onOpenChange={handleCloseModel}>
-			<DialogContent className="w-[1000px]">
+			<DialogContent className={cn(width, height)}>
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>{description}</DialogDescription>

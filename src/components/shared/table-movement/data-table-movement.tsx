@@ -199,7 +199,11 @@ export function DataTableMovement<TData, TValue>({
 			{error && <div className="text-red-600">Error cargando datos</div>}
 
 			{open && (
-				<DialogCreateMovement showModel={open} handleCloseModel={handleClose} />
+				<DialogCreateMovement
+					userId={userId}
+					showModel={open}
+					handleCloseModel={handleClose}
+				/>
 			)}
 		</div>
 	);

@@ -6,7 +6,7 @@ export const movementRepository = {
 		return prisma.movement.count({ where });
 	},
 
-	async getmovements(
+	async getMovements(
 		where?: Prisma.MovementWhereInput | undefined,
 		page?: number,
 		perPage?: number,

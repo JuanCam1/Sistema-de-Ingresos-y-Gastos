@@ -26,7 +26,7 @@ export const movementService = {
 		const total = await movementRepository.count(finalWhere);
 
 		if (page === 0 && perPage === 0) {
-			const users = await movementRepository.getmovements(finalWhere);
+			const users = await movementRepository.getMovements(finalWhere);
 
 			return {
 				data: users,
@@ -42,7 +42,7 @@ export const movementService = {
 		const validPage = Math.max(1, page);
 		const validPerPage = Math.max(1, perPage);
 
-		const movements = await movementRepository.getmovements(
+		const movements = await movementRepository.getMovements(
 			finalWhere,
 			validPage,
 			validPerPage,
