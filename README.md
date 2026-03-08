@@ -35,7 +35,7 @@ NEXT_PUBLIC_APP_URL=
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/JuanCam1/Prueba-Tecnica.git
+git clone https://github.com/JuanCam1/Sistema-de-Ingresos-y-Gastos.git
 cd Prueba-Tecnica
 ```
 

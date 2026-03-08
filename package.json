@@ -9,7 +9,7 @@
 		"test": "vitest run",
 		"lint": "biome lint --write",
 		"format": "biome format --write",
-		"postinstall": "prisma generate && tsx prisma/seed.ts"
+		"postinstall": "prisma generate"
 	},
 	"dependencies": {
 		"@better-auth/prisma-adapter": "^1.5.3",
