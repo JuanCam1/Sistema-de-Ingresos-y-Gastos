@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import { useUserList } from "@/hooks/use-user-list";
 import { HomeLayout } from "@/layouts/home-layout";
 import { UserModel } from "@/models/user-model";
