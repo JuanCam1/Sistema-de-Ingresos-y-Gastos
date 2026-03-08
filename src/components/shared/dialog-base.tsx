@@ -1,11 +1,5 @@
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "../ui/dialog";
 import { ReactNode } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 interface Props {
 	title: string;
@@ -13,7 +7,7 @@ interface Props {
 	handleCloseModel: () => void;
 	children: ReactNode;
 }
-export default function DialogBase({
+export function DialogBase({
 	title,
 	children,
 	showModel,

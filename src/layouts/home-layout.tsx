@@ -7,7 +7,7 @@ import { ModeToggle } from "@/components/shared/toggle-theme";
 interface Props {
 	children: ReactNode;
 }
-export default function HomeLayout({ children }: Props) {
+export function HomeLayout({ children }: Props) {
 	return (
 		<SidebarProvider>
 			<AppSidebar />

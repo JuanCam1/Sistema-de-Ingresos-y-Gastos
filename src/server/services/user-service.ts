@@ -1,3 +1,4 @@
+import { normalize } from "@/utils/normalize-text";
 import { Prisma } from "../../../prisma/generated/prisma/browser";
 import { userRepository } from "../repositories/user-repository";
 import { UserFilters } from "../types/user-filter-type";
@@ -11,7 +12,7 @@ export const userService = {
 
 		if (filters.name) {
 			where.name = {
-				contains: filters.name,
+				contains: normalize(filters.name),
 			};
 		}
 
